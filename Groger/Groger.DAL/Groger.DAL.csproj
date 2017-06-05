@@ -48,13 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClusterRepository.cs" />
     <Compile Include="GenericRepository.cs" />
-    <Compile Include="GroceryRepository.cs" />
     <Compile Include="GrogerContext.cs" />
-    <Compile Include="IClusterRepository.cs" />
     <Compile Include="IGenericRepository.cs" />
-    <Compile Include="IGroceryRepository.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Migrations\201706041545342_initial.cs" />
     <Compile Include="Migrations\201706041545342_initial.Designer.cs">
