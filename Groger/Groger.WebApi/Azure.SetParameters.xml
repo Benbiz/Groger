@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <setParameter name="IIS Web Application Name" value="Default Web Site/Groger.WebApi_deploy" />
+  <setParameter name="GrogerContext-Web.config Connection String" value="Data Source=grogersql.database.windows.net;Initial Catalog=GrogerDb;User ID=bizard_b;Password=&quot;*inj=7KE&quot;;Application Name=EntityFramework" />
+</parameters>
