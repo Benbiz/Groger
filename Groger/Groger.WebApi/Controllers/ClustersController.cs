@@ -14,12 +14,22 @@ namespace Groger.WebApi.Controllers
 {
     public class ClustersController : ApiController
     {
-        private IClusterRepository repository = new ClusterRepository(new GrogerContext());
+        private IUnitOfWork unitOfWork;
+
+        public ClustersController()
+        {
+            unitOfWork = new UnitOfWork();
+        }
+
+        public ClustersController(IUnitOfWork uow)
+        {
+            unitOfWork = uow;
+        }
 
         // GET: api/Clusters
         public IQueryable<ClusterDTO> GetClusters()
         {
-            var clustersDTO = Mapper.Map<IEnumerable<ClusterDTO>>(repository.GetClusters());
+            var clustersDTO = Mapper.Map<IEnumerable<ClusterDTO>>(unitOfWork.ClusterRepository.Get());
 
             return clustersDTO.AsQueryable();
         }
@@ -28,7 +38,7 @@ namespace Groger.WebApi.Controllers
         [ResponseType(typeof(ClusterDTO))]
         public IHttpActionResult GetCluster(int id)
         {
-            var entity = repository.GetClusterById(id);
+            var entity = unitOfWork.ClusterRepository.GetByID(id);
             if (entity == null)
             {
                 return NotFound();
@@ -51,15 +61,15 @@ namespace Groger.WebApi.Controllers
                 return BadRequest();
             }
 
-            repository.UpdateCluster(cluster);
+            unitOfWork.ClusterRepository.Update(cluster);
 
             try
             {
-                repository.Save();
+                unitOfWork.Save();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (repository.GetClusterById(id) == null)
+                if (unitOfWork.ClusterRepository.GetByID(id) == null)
                 {
                     return NotFound();
                 }
@@ -81,8 +91,8 @@ namespace Groger.WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            repository.InsertCluster(cluster);
-            repository.Save();
+            unitOfWork.ClusterRepository.Insert(cluster);
+            unitOfWork.Save();
 
             return CreatedAtRoute("DefaultApi", new { id = cluster.Id }, cluster);
         }
@@ -91,14 +101,14 @@ namespace Groger.WebApi.Controllers
         [ResponseType(typeof(Cluster))]
         public IHttpActionResult DeleteCluster(int id)
         {
-            Cluster cluster = repository.GetClusterById(id);
+            Cluster cluster = unitOfWork.ClusterRepository.GetByID(id);
             if (cluster == null)
             {
                 return NotFound();
             }
 
-            repository.DeleteCluster(id);
-            repository.Save();
+            unitOfWork.ClusterRepository.Delete(id);
+            unitOfWork.Save();
 
             return Ok(cluster);
         }
@@ -107,7 +117,7 @@ namespace Groger.WebApi.Controllers
         {
             if (disposing)
             {
-                repository.Dispose();
+                unitOfWork.Dispose();
             }
             base.Dispose(disposing);
         }

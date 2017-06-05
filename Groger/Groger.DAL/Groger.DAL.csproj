@@ -49,16 +49,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClusterRepository.cs" />
+    <Compile Include="GenericRepository.cs" />
     <Compile Include="GroceryRepository.cs" />
     <Compile Include="GrogerContext.cs" />
     <Compile Include="IClusterRepository.cs" />
+    <Compile Include="IGenericRepository.cs" />
     <Compile Include="IGroceryRepository.cs" />
+    <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Migrations\201706041545342_initial.cs" />
     <Compile Include="Migrations\201706041545342_initial.Designer.cs">
       <DependentUpon>201706041545342_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Groger.Entity\Groger.Entity.csproj">

@@ -1,7 +1,9 @@
-﻿using Groger.DAL;
+﻿using AutoMapper;
+using Groger.DAL;
 using Groger.DTO;
 using Groger.Entity;
 using Swashbuckle.Swagger.Annotations;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -13,20 +15,23 @@ namespace Groger.WebApi.Controllers
 {
     public class GroceriesController : ApiController
     {
-        private IGroceryRepository repository = new GroceryRepository(new GrogerContext());
+        private IUnitOfWork unitOfWork;
+
+        public GroceriesController()
+        {
+            unitOfWork = new UnitOfWork();
+        }
+
+        public GroceriesController(IUnitOfWork unit)
+        {
+            unitOfWork = unit;
+        }
 
         // GET: api/Grocery
         [SwaggerResponse(HttpStatusCode.OK, "Grocery list", typeof(GroceryDTO))]
         public IQueryable<GroceryDTO> GetGroceries()
         {
-            var groceries = from g in repository.GetGroceries()
-                            select new GroceryDTO()
-                            {
-                                Id = g.Id,
-                                Name = g.Name,
-                                Description = g.Description,
-                                Quantity = g.Quantity
-                            };
+            var groceries = Mapper.Map<IEnumerable<GroceryDTO>>(unitOfWork.GroceryRepository.Get());
             return groceries.AsQueryable();
         }
 
@@ -34,18 +39,12 @@ namespace Groger.WebApi.Controllers
         [ResponseType(typeof(GroceryDTO))]
         public IHttpActionResult GetGrocery(int id)
         {
-            var entity = repository.GetGroceryById(id);
+            var entity = unitOfWork.GroceryRepository.GetByID(id);
             if (entity == null)
             {
                 return NotFound();
             }
-            GroceryDTO groceryDTO = new GroceryDTO()
-            {
-                Id = entity.Id,
-                Name = entity.Name,
-                Description = entity.Description,
-                Quantity = entity.Quantity
-            };
+            GroceryDTO groceryDTO = Mapper.Map<GroceryDTO>(entity);
             return Ok(groceryDTO);
         }
 
@@ -63,15 +62,15 @@ namespace Groger.WebApi.Controllers
                 return BadRequest();
             }
 
-            repository.UpdateGrocery(grocery);
+            unitOfWork.GroceryRepository.Update(grocery);
 
             try
             {
-                repository.Save();
+                unitOfWork.Save();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (repository.GetGroceryById(id) == null)
+                if (unitOfWork.GroceryRepository.GetByID(id) == null)
                 {
                     return NotFound();
                 }
@@ -93,8 +92,8 @@ namespace Groger.WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            repository.InsertGrocery(grocery);
-            repository.Save();
+            unitOfWork.GroceryRepository.Insert(grocery);
+            unitOfWork.Save();
 
             return CreatedAtRoute("DefaultApi", new { id = grocery.Id }, grocery);
         }
@@ -103,14 +102,14 @@ namespace Groger.WebApi.Controllers
         [ResponseType(typeof(Grocery))]
         public IHttpActionResult DeleteGroceryDTO(int id)
         {
-            Grocery grocery = repository.GetGroceryById(id);
+            Grocery grocery = unitOfWork.GroceryRepository.GetByID(id);
             if (grocery == null)
             {
                 return NotFound();
             }
 
-            repository.DeleteGrocery(id);
-            repository.Save();
+            unitOfWork.GroceryRepository.Delete(id);
+            unitOfWork.Save();
 
             return Ok(grocery);
         }
@@ -119,7 +118,7 @@ namespace Groger.WebApi.Controllers
         {
             if (disposing)
             {
-                repository.Dispose();
+                unitOfWork.Dispose();
             }
             base.Dispose(disposing);
         }
