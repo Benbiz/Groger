@@ -1,10 +1,6 @@
 ﻿using Groger.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using Newtonsoft.Json.Serialization;
 using System.Web.Http;
-using System.Web.Routing;
 
 namespace Groger.WebApi
 {
@@ -12,6 +8,9 @@ namespace Groger.WebApi
     {
         protected void Application_Start()
         {
+            HttpConfiguration config = GlobalConfiguration.Configuration;
+            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            config.Formatters.JsonFormatter.UseDataContractJsonSerializer = false;
             AutoMapperConfiguration.Configure();
             GlobalConfiguration.Configure(WebApiConfig.Register);
         }
