@@ -7,6 +7,8 @@ using System.Web.Http.Description;
 using Groger.DAL;
 using Groger.DTO;
 using Groger.Entity;
+using AutoMapper;
+using System.Collections.Generic;
 
 namespace Groger.WebApi.Controllers
 {
@@ -17,16 +19,9 @@ namespace Groger.WebApi.Controllers
         // GET: api/Clusters
         public IQueryable<ClusterDTO> GetClusters()
         {
-            var clusters = from c in repository.GetClusters()
-                           select new ClusterDTO()
-                           {
-                               Id = c.Id,
-                               Name = c.Name,
-                               Description = c.Description,
-                               GroceriesQuantity = c.Groceries.Count(),
-                               FirstGroceryName = c.Groceries.Count() != 0 ? c.Groceries.First().Name : ""
-                            };
-            return clusters.AsQueryable();
+            var clustersDTO = Mapper.Map<IEnumerable<ClusterDTO>>(repository.GetClusters());
+
+            return clustersDTO.AsQueryable();
         }
 
         // GET: api/Clusters/5
@@ -38,16 +33,8 @@ namespace Groger.WebApi.Controllers
             {
                 return NotFound();
             }
-            ClusterDTO clusterDTO = new ClusterDTO()
-            {
-                Id = entity.Id,
-                Name = entity.Name,
-                Description = entity.Description,
-                GroceriesQuantity = entity.Groceries.Count(),
-                FirstGroceryName = entity.Groceries.Count() != 0 ? entity.Groceries.First().Name : ""
-            };
 
-            return Ok(clusterDTO);
+            return Ok(Mapper.Map<ClusterDTO>(entity));
         }
 
         // PUT: api/Clusters/5
