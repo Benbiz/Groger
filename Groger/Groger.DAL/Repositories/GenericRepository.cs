@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Groger.DAL
+namespace Groger.DAL.Repositories
 {
     /// <summary>
     /// Generic Repository for EntityFramework

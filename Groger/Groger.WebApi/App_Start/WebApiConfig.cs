@@ -1,4 +1,6 @@
-﻿using System.Web.Http;
+﻿using Groger.DTO;
+using Newtonsoft.Json.Serialization;
+using System.Web.Http;
 
 namespace Groger.WebApi
 {
@@ -16,6 +18,11 @@ namespace Groger.WebApi
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            config.Formatters.JsonFormatter.UseDataContractJsonSerializer = false;
+
+            AutoMapperConfiguration.Configure();
         }
     }
 }

@@ -1,14 +1,13 @@
-﻿using System.Data.Entity;
+﻿using AutoMapper;
+using Groger.DAL;
+using Groger.DTO;
+using Groger.Entity;
+using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Web.Http;
 using System.Web.Http.Description;
-using Groger.DAL;
-using Groger.DTO;
-using Groger.Entity;
-using AutoMapper;
-using System.Collections.Generic;
 
 namespace Groger.WebApi.Controllers
 {
@@ -27,6 +26,7 @@ namespace Groger.WebApi.Controllers
         }
 
         // GET: api/Clusters
+        [Authorize]
         public IQueryable<ClusterDTO> GetClusters()
         {
             var clustersDTO = Mapper.Map<IEnumerable<ClusterDTO>>(unitOfWork.ClusterRepository.Get());

@@ -3,17 +3,17 @@ using WebActivatorEx;
 using Groger.WebApi;
 using Swashbuckle.Application;
 
-[assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
+//[assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
 namespace Groger.WebApi
 {
     public class SwaggerConfig
     {
-        public static void Register()
+        public static void Register(HttpConfiguration config)
         {
-            var thisAssembly = typeof(SwaggerConfig).Assembly;
+            // var thisAssembly = typeof(SwaggerConfig).Assembly;
 
-            GlobalConfiguration.Configuration 
+            config
                 .EnableSwagger(c =>
                     {
                         // By default, the service root url is inferred from the request used to access the docs.
@@ -57,7 +57,7 @@ namespace Groger.WebApi
                         //c.BasicAuth("basic")
                         //    .Description("Basic HTTP Authentication");
                         //
-						// NOTE: You must also configure 'EnableApiKeySupport' below in the SwaggerUI section
+                        // NOTE: You must also configure 'EnableApiKeySupport' below in the SwaggerUI section
                         //c.ApiKey("apiKey")
                         //    .Description("API Key Authentication")
                         //    .Name("apiKey")
@@ -67,7 +67,7 @@ namespace Groger.WebApi
                         //    .Description("OAuth2 Implicit Grant")
                         //    .Flow("implicit")
                         //    .AuthorizationUrl("http://petstore.swagger.wordnik.com/api/oauth/dialog")
-                        //    //.TokenUrl("https://tempuri.org/token")
+                        //    .TokenUrl("http://localhost:4977/token");
                         //    .Scopes(scopes =>
                         //    {
                         //        scopes.Add("read", "Read access to protected resources");

@@ -1,11 +1,4 @@
-﻿using DelegateDecompiler;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Groger.DTO
+﻿namespace Groger.DTO
 {
     public class ClusterDTO
     {
