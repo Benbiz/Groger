@@ -60,14 +60,14 @@ namespace Groger.WebApi
                         // NOTE: You must also configure 'EnableApiKeySupport' below in the SwaggerUI section
                         //c.ApiKey("apiKey")
                         //    .Description("API Key Authentication")
-                        //    .Name("apiKey")
+                        //    .Name("Authorization")
                         //    .In("header");
                         //
                         //c.OAuth2("oauth2")
                         //    .Description("OAuth2 Implicit Grant")
                         //    .Flow("implicit")
                         //    .AuthorizationUrl("http://petstore.swagger.wordnik.com/api/oauth/dialog")
-                        //    .TokenUrl("http://localhost:4977/token");
+                        //    .TokenUrl("http://localhost:4977/token")
                         //    .Scopes(scopes =>
                         //    {
                         //        scopes.Add("read", "Read access to protected resources");
@@ -238,8 +238,8 @@ namespace Groger.WebApi
 
                         // If your API supports ApiKey, you can override the default values.
                         // "apiKeyIn" can either be "query" or "header"                                                
-                        //
-                        //c.EnableApiKeySupport("apiKey", "header");
+                        ////
+                        //c.EnableApiKeySupport("Authorization", "header");
                     });
         }
     }

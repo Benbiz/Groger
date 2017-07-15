@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Groger.Entity
@@ -12,5 +13,7 @@ namespace Groger.Entity
         public string Description { get; set; }
 
         public virtual ICollection<Grocery> Groceries { get; set; }
+
+        public virtual IdentityUser IdentityUser { get; set; }
     }
 }

@@ -2,10 +2,12 @@
 using Groger.DAL;
 using Groger.DTO;
 using Groger.Entity;
+using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 
@@ -29,6 +31,8 @@ namespace Groger.WebApi.Controllers
         [Authorize]
         public IQueryable<ClusterDTO> GetClusters()
         {
+            var username = HttpContext.Current.User.Identity.GetUserName();
+            string strCurrentUserId = User.Identity.GetUserId();
             var clustersDTO = Mapper.Map<IEnumerable<ClusterDTO>>(unitOfWork.ClusterRepository.Get());
 
             return clustersDTO.AsQueryable();
