@@ -12,6 +12,7 @@ namespace Groger.Entity
         [Required]
         public int Quantity { get; set; }
 
+        [Required]
         public int  ClusterId { get; set; }
         public virtual Cluster  Cluster { get; set; }
     }

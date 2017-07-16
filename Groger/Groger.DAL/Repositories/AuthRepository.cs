@@ -11,25 +11,39 @@ namespace Groger.DAL.Repositories
 {
     public class AuthRepository : IAuthRepository, IDisposable
     {
-        private AuthContext context;
-        private UserManager<IdentityUser> userManager;
+        private GrogerContext context;
+        private UserManager<ApplicationUser> userManager;
+
 
         public AuthRepository()
         {
-            this.context = new AuthContext();
-            userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(this.context));
+            this.context = new GrogerContext();
+            userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.context));
         }
 
-        public async Task<IdentityUser> FindUser(string userName, string password)
+        public AuthRepository(GrogerContext context)
         {
-            IdentityUser user = await userManager.FindAsync(userName, password);
+            this.context = context;
+            userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.context));
+        }
+
+        public ApplicationUser FindUserByName(string userName)
+        {
+            ApplicationUser user = userManager.FindByName(userName);
+
+            return user;
+        }
+
+        public async Task<ApplicationUser> FindUser(string userName, string password)
+        {
+            ApplicationUser user = await userManager.FindAsync(userName, password);
 
             return user;
         }
 
         public async Task<IdentityResult> RegisterUser(User user)
         {
-            IdentityUser newuser = new IdentityUser
+            ApplicationUser newuser = new ApplicationUser
             {
                 UserName = user.UserName
             };

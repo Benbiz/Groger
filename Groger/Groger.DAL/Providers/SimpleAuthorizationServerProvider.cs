@@ -1,4 +1,5 @@
 ﻿using Groger.DAL.Repositories;
+using Groger.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security.OAuth;
 using System.Security.Claims;
@@ -20,7 +21,7 @@ namespace Groger.DAL.Providers
 
             using (IAuthRepository _repo = new AuthRepository())
             {
-                IdentityUser user = await _repo.FindUser(context.UserName, context.Password);
+                ApplicationUser user = await _repo.FindUser(context.UserName, context.Password);
 
                 if (user == null)
                 {
@@ -30,6 +31,8 @@ namespace Groger.DAL.Providers
             }
 
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
+
+            identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
             identity.AddClaim(new Claim("sub", context.UserName));
             identity.AddClaim(new Claim("role", "user"));
 

@@ -1,12 +1,53 @@
-using System.Web.Http;
-using WebActivatorEx;
-using Groger.WebApi;
 using Swashbuckle.Application;
-
-//[assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
+using Swashbuckle.Swagger;
+using System.Collections.Generic;
+using System.Web.Http;
+using System.Web.Http.Description;
 
 namespace Groger.WebApi
 {
+    class AuthTokenOperation : IDocumentFilter
+    {
+        public void Apply(SwaggerDocument swaggerDoc, SchemaRegistry schemaRegistry, IApiExplorer apiExplorer)
+        {
+            swaggerDoc.paths.Add("/token", new PathItem
+            {
+                post = new Operation
+                {
+                    tags = new List<string> { "Account" },
+                    consumes = new List<string>
+                    {
+                        "application/x-www-form-urlencoded"
+                    },
+                    parameters = new List<Parameter> {
+                    new Parameter
+                    {
+                        type = "string",
+                        name = "grant_type",
+                        @default = "password",
+                        required = true,
+                        @in = "formData"
+                    },
+                    new Parameter
+                    {
+                        type = "string",
+                        name = "username",
+                        required = false,
+                        @in = "formData"
+                    },
+                    new Parameter
+                    {
+                        type = "string",
+                        name = "password",
+                        required = false,
+                        @in = "formData"
+                    }
+                }
+                }
+            });
+        }
+    }
+
     public class SwaggerConfig
     {
         public static void Register(HttpConfiguration config)
@@ -58,10 +99,10 @@ namespace Groger.WebApi
                         //    .Description("Basic HTTP Authentication");
                         //
                         // NOTE: You must also configure 'EnableApiKeySupport' below in the SwaggerUI section
-                        //c.ApiKey("apiKey")
-                        //    .Description("API Key Authentication")
-                        //    .Name("Authorization")
-                        //    .In("header");
+                        c.ApiKey("apiKey")
+                            .Description("API Key Authentication")
+                            .Name("Authorization")
+                            .In("header");
                         //
                         //c.OAuth2("oauth2")
                         //    .Description("OAuth2 Implicit Grant")
@@ -159,7 +200,7 @@ namespace Groger.WebApi
                         // the Swagger 2.0 spec. - https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md
                         // before using this option.
                         //
-                        //c.DocumentFilter<ApplyDocumentVendorExtensions>();
+                        c.DocumentFilter<AuthTokenOperation>();
 
                         // In contrast to WebApi, Swagger 2.0 does not include the query string component when mapping a URL
                         // to an action. As a result, Swashbuckle will raise an exception if it encounters multiple actions
@@ -239,7 +280,7 @@ namespace Groger.WebApi
                         // If your API supports ApiKey, you can override the default values.
                         // "apiKeyIn" can either be "query" or "header"                                                
                         ////
-                        //c.EnableApiKeySupport("Authorization", "header");
+                        c.EnableApiKeySupport("Authorization", "header");
                     });
         }
     }

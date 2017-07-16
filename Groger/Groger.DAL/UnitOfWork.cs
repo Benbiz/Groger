@@ -9,6 +9,7 @@ namespace Groger.DAL
         private GrogerContext context = new GrogerContext();
         private GenericRepository<Cluster> clusterRepository;
         private GenericRepository<Grocery> groceryRepository;
+        private AuthRepository authRepository;
 
         public IGenericRepository<Cluster> ClusterRepository
         {
@@ -33,6 +34,17 @@ namespace Groger.DAL
             }
         }
 
+        public AuthRepository AuthRepository
+        {
+            get
+            {
+                if (this.groceryRepository == null)
+                {
+                    this.authRepository = new AuthRepository(context);
+                }
+                return authRepository;
+            }
+        }
         public void Save()
         {
             context.SaveChanges();

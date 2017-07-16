@@ -1,4 +1,5 @@
-﻿using Groger.DAL.Repositories;
+﻿using Groger.DAL;
+using Groger.DAL.Repositories;
 using Groger.Entity;
 using Microsoft.AspNet.Identity;
 using System.Threading.Tasks;
@@ -6,18 +7,15 @@ using System.Web.Http;
 
 namespace Groger.WebApi.Controllers
 {
-    public class AccountController : ApiController
+    public class AccountController : BaseApiController
     {
-        private IAuthRepository repo;
-
-        public AccountController(IAuthRepository repository)
+        public AccountController(IUnitOfWork unit)
+            : base(unit)
         {
-            repo = repository;
         }
 
         public AccountController()
         {
-            repo = new AuthRepository();
         }
 
         [AllowAnonymous]
@@ -28,7 +26,7 @@ namespace Groger.WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            IdentityResult result = await repo.RegisterUser(user);
+            IdentityResult result = await UnitOfWork.AuthRepository.RegisterUser(user);
 
             IHttpActionResult errorResult = GetErrorResult(result);
 
@@ -41,7 +39,7 @@ namespace Groger.WebApi.Controllers
         protected override void Dispose(bool disposing)
         {
             if (disposing)
-                repo.Dispose();
+                UnitOfWork.AuthRepository.Dispose();
             base.Dispose(disposing);
         }
 

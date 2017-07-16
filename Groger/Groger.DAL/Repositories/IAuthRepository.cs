@@ -10,6 +10,6 @@ namespace Groger.DAL.Repositories
     {
         Task<IdentityResult> RegisterUser(User user);
 
-        Task<IdentityUser> FindUser(string userName, string password);
+        Task<ApplicationUser> FindUser(string userName, string password);
     }
 }

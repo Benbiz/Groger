@@ -2,126 +2,125 @@
 using Groger.DAL;
 using Groger.DTO;
 using Groger.Entity;
-using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 
 namespace Groger.WebApi.Controllers
 {
-    public class ClustersController : ApiController
+    public class ClustersController : BaseApiController
     {
-        private IUnitOfWork unitOfWork;
 
         public ClustersController()
         {
-            unitOfWork = new UnitOfWork();
         }
 
         public ClustersController(IUnitOfWork uow)
+            : base(uow)
         {
-            unitOfWork = uow;
         }
 
         // GET: api/Clusters
         [Authorize]
-        public IQueryable<ClusterDTO> GetClusters()
+        public IQueryable<GetClusterDTO> GetClusters()
         {
-            var username = HttpContext.Current.User.Identity.GetUserName();
-            string strCurrentUserId = User.Identity.GetUserId();
-            var clustersDTO = Mapper.Map<IEnumerable<ClusterDTO>>(unitOfWork.ClusterRepository.Get());
+            var clustersDTO = Mapper.Map<IEnumerable<GetClusterDTO>>(UserRecord.Clusters);
 
             return clustersDTO.AsQueryable();
         }
 
         // GET: api/Clusters/5
-        [ResponseType(typeof(ClusterDTO))]
+        [ResponseType(typeof(GetClusterDTO))]
         public IHttpActionResult GetCluster(int id)
         {
-            var entity = unitOfWork.ClusterRepository.GetByID(id);
-            if (entity == null)
-            {
-                return NotFound();
-            }
+            Cluster entity = UnitOfWork.ClusterRepository.GetByID(id);
 
-            return Ok(Mapper.Map<ClusterDTO>(entity));
+            if (entity == null)
+                return NotFound();
+            else if (entity.ApplicationUsers.FirstOrDefault(x => x.Id == UserRecord.Id) == null)
+                return Unauthorized();
+
+            return Ok(Mapper.Map<GetClusterDTO>(entity));
         }
 
         // PUT: api/Clusters/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutCluster(int id, Cluster cluster)
+        public IHttpActionResult PutCluster(int id, ClusterDTO cluster)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
-            if (id != cluster.Id)
-            {
-                return BadRequest();
-            }
+            Cluster entity = UnitOfWork.ClusterRepository.GetByID(id);
 
-            unitOfWork.ClusterRepository.Update(cluster);
+            if (entity == null)
+                return NotFound();
+            else if (entity.ApplicationUsers.FirstOrDefault(x => x.Id == UserRecord.Id) == null)
+                return Unauthorized();
+
+            entity.Name = cluster.Name;
+            entity.Description = cluster.Description;
+
+            UnitOfWork.ClusterRepository.Update(entity);
 
             try
             {
-                unitOfWork.Save();
+                UnitOfWork.Save();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException e)
             {
-                if (unitOfWork.ClusterRepository.GetByID(id) == null)
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                  return InternalServerError(new Exception(string.Format("Failed to update cluster {0}", entity.Id), e));
             }
 
             return StatusCode(HttpStatusCode.NoContent);
         }
 
         // POST: api/Clusters
-        [ResponseType(typeof(Cluster))]
-        public IHttpActionResult PostCluster(Cluster cluster)
+        [ResponseType(typeof(GetClusterDTO))]
+        public IHttpActionResult PostCluster(ClusterDTO cluster)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            unitOfWork.ClusterRepository.Insert(cluster);
-            unitOfWork.Save();
+            var entity = new Cluster()
+            {
+                Name = cluster.Name,
+                Description = cluster.Description
+            };
 
-            return CreatedAtRoute("DefaultApi", new { id = cluster.Id }, cluster);
+            UnitOfWork.ClusterRepository.Insert(entity);
+            UnitOfWork.Save();
+
+            return CreatedAtRoute("DefaultApi", new { id = entity.Id }, Mapper.Map<GetClusterDTO>(entity));
         }
 
         // DELETE: api/Clusters/5
-        [ResponseType(typeof(Cluster))]
+        [ResponseType(typeof(GetClusterDTO))]
         public IHttpActionResult DeleteCluster(int id)
         {
-            Cluster cluster = unitOfWork.ClusterRepository.GetByID(id);
+            Cluster cluster = UnitOfWork.ClusterRepository.GetByID(id);
+
             if (cluster == null)
-            {
                 return NotFound();
-            }
+            else if (cluster.ApplicationUsers.FirstOrDefault(x => x.Id == UserRecord.Id) == null) 
+                return Unauthorized();
 
-            unitOfWork.ClusterRepository.Delete(id);
-            unitOfWork.Save();
+            UnitOfWork.ClusterRepository.Delete(id);
+            UnitOfWork.Save();
 
-            return Ok(cluster);
+            return Ok(Mapper.Map<GetClusterDTO>(cluster));
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                unitOfWork.Dispose();
+                UnitOfWork.Dispose();
             }
             base.Dispose(disposing);
         }

@@ -1,9 +1,10 @@
 ﻿using Groger.Entity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 
 namespace Groger.DAL
 {
-    public class GrogerContext : DbContext
+    public class GrogerContext : IdentityDbContext<ApplicationUser>
     {
         // You can add custom code to this file. Changes will not be overwritten.
         // 

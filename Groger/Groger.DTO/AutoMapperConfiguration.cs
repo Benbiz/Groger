@@ -11,10 +11,11 @@ namespace Groger.DTO
         {
             Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<Cluster, ClusterDTO>()
-                .ForMember(DTO => DTO.GroceriesQuantity, conf => conf.MapFrom(ol => ol.Groceries.Count()))
-                .ForMember(dto => dto.FirstGroceryName, conf =>conf.MapFrom(ol => ol.Groceries.Count() != 0 ? ol.Groceries.First().Name : ""));
+                cfg.CreateMap<Cluster, GetClusterDTO>()
+                    .ForMember(DTO => DTO.GroceriesQuantity, conf => conf.MapFrom(ol => ol.Groceries.Count()))
+                    .ForMember(dto => dto.FirstGroceryName, conf =>conf.MapFrom(ol => ol.Groceries.Count() != 0 ? ol.Groceries.First().Name : ""));
                 cfg.CreateMap<Grocery, GroceryDTO>();
+                cfg.CreateMap<Cluster, ClusterDTO>();
             } );
         }
     }

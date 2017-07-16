@@ -10,6 +10,7 @@ namespace Groger.DAL
 
         IGenericRepository<Grocery> GroceryRepository { get; }
 
+        AuthRepository  AuthRepository { get; }
         void Save();
     }
 }

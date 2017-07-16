@@ -12,25 +12,22 @@ using System.Web.Http.Description;
 
 namespace Groger.WebApi.Controllers
 {
-    public class GroceriesController : ApiController
+    public class GroceriesController : BaseApiController
     {
-        private IUnitOfWork unitOfWork;
-
         public GroceriesController()
         {
-            unitOfWork = new UnitOfWork();
         }
 
         public GroceriesController(IUnitOfWork unit)
+            : base(unit)
         {
-            unitOfWork = unit;
         }
 
         // GET: api/Grocery
         [SwaggerResponse(HttpStatusCode.OK, "Grocery list", typeof(GroceryDTO))]
         public IQueryable<GroceryDTO> GetGroceries()
         {
-            var groceries = Mapper.Map<IEnumerable<GroceryDTO>>(unitOfWork.GroceryRepository.Get());
+            var groceries = Mapper.Map<IEnumerable<GroceryDTO>>(UnitOfWork.GroceryRepository.Get());
             return groceries.AsQueryable();
         }
 
@@ -38,7 +35,7 @@ namespace Groger.WebApi.Controllers
         [ResponseType(typeof(GroceryDTO))]
         public IHttpActionResult GetGrocery(int id)
         {
-            var entity = unitOfWork.GroceryRepository.GetByID(id);
+            var entity = UnitOfWork.GroceryRepository.GetByID(id);
             if (entity == null)
             {
                 return NotFound();
@@ -61,15 +58,15 @@ namespace Groger.WebApi.Controllers
                 return BadRequest();
             }
 
-            unitOfWork.GroceryRepository.Update(grocery);
+            UnitOfWork.GroceryRepository.Update(grocery);
 
             try
             {
-                unitOfWork.Save();
+                UnitOfWork.Save();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (unitOfWork.GroceryRepository.GetByID(id) == null)
+                if (UnitOfWork.GroceryRepository.GetByID(id) == null)
                 {
                     return NotFound();
                 }
@@ -91,8 +88,8 @@ namespace Groger.WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            unitOfWork.GroceryRepository.Insert(grocery);
-            unitOfWork.Save();
+            UnitOfWork.GroceryRepository.Insert(grocery);
+            UnitOfWork.Save();
 
             return CreatedAtRoute("DefaultApi", new { id = grocery.Id }, grocery);
         }
@@ -101,14 +98,14 @@ namespace Groger.WebApi.Controllers
         [ResponseType(typeof(Grocery))]
         public IHttpActionResult DeleteGroceryDTO(int id)
         {
-            Grocery grocery = unitOfWork.GroceryRepository.GetByID(id);
+            Grocery grocery = UnitOfWork.GroceryRepository.GetByID(id);
             if (grocery == null)
             {
                 return NotFound();
             }
 
-            unitOfWork.GroceryRepository.Delete(id);
-            unitOfWork.Save();
+            UnitOfWork.GroceryRepository.Delete(id);
+            UnitOfWork.Save();
 
             return Ok(grocery);
         }
@@ -117,7 +114,7 @@ namespace Groger.WebApi.Controllers
         {
             if (disposing)
             {
-                unitOfWork.Dispose();
+                UnitOfWork.Dispose();
             }
             base.Dispose(disposing);
         }
