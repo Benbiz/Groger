@@ -7,7 +7,6 @@ namespace Groger.Entity
         [Required]
         public int Id { get; set; }
         [Required]
-
         [StringLength(100, MinimumLength = 6)]
         public string Name { get; set; }
         [Required]
@@ -19,7 +18,7 @@ namespace Groger.Entity
 
         [Required]
         public int ClusterId { get; set; }
-        [Required]
+
         public virtual Cluster  Cluster { get; set; }
     }
 }

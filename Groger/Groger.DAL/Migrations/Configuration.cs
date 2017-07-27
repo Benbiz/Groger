@@ -31,10 +31,10 @@ namespace Groger.DAL.Migrations
             var users = new List<ApplicationUser>() { user };
 
             context.Groceries.AddOrUpdate(x => x.Id,
-                new Grocery() { Id = 1, Name = "Sel", Description = "Sel la balaine", Quantity = 2, ClusterId = 1 },
+                new Grocery() { Id = 1, Name = "Sel de mer", Description = "Sel la balaine", Quantity = 2, ClusterId = 1 },
                 new Grocery() { Id = 2, Name = "Poivre", Description = "Poivre 5 baies", Quantity = 1, ClusterId = 1 },
                 new Grocery() { Id = 3, Name = "Côtes de porc", Description = "Côtes de porc", Quantity = 4, ClusterId = 1 },
-                new Grocery() { Id = 4, Name = "Poulet", Description = "Poulet de louet", Quantity = 1, ClusterId = 1 }
+                new Grocery() { Id = 4, Name = "Cuisse de poulet", Description = "Poulet de louet", Quantity = 1, ClusterId = 1 }
                 );
 
             context.Clusters.AddOrUpdate(x => x.Id,
