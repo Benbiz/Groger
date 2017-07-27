@@ -14,8 +14,9 @@ namespace Groger.DTO
                 cfg.CreateMap<Cluster, GetClusterDTO>()
                     .ForMember(DTO => DTO.GroceriesQuantity, conf => conf.MapFrom(ol => ol.Groceries.Count()))
                     .ForMember(dto => dto.FirstGroceryName, conf =>conf.MapFrom(ol => ol.Groceries.Count() != 0 ? ol.Groceries.First().Name : ""));
-                cfg.CreateMap<Grocery, GroceryDTO>();
+                cfg.CreateMap<Grocery, GetGroceryDTO>();
                 cfg.CreateMap<Cluster, ClusterDTO>();
+                cfg.CreateMap<ApplicationUser, UserDTO>();
             } );
         }
     }

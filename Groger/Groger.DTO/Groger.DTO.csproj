@@ -62,8 +62,10 @@
     <Compile Include="AutoMapperConfiguration.cs" />
     <Compile Include="ClusterDTO.cs" />
     <Compile Include="GetClusterDTO.cs" />
+    <Compile Include="GetGroceryDTO.cs" />
     <Compile Include="GroceryDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserDTO.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

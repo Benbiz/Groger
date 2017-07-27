@@ -1,10 +1,17 @@
-﻿namespace Groger.DTO
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Groger.DTO
 {
     public class GroceryDTO
     {
-        public int Id { get; set; }
+        [Required]
+        [StringLength(100, ErrorMessage = "The name must be at least 6 characters long.", MinimumLength = 6)]
         public string Name { get; set; }
+        [Required]
+        [StringLength(100, ErrorMessage = "The description must be at least 6 characters long.", MinimumLength = 6)]
         public string Description { get; set; }
-        public int Quantity { get; set; }
+        [Required]
+        [Range(0, uint.MaxValue)]
+        public uint Quantity { get; set; }
     }
 }

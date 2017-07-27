@@ -2,6 +2,7 @@
 using Groger.DAL;
 using Groger.DTO;
 using Groger.Entity;
+using Swashbuckle.Swagger.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
@@ -12,6 +13,8 @@ using System.Web.Http.Description;
 
 namespace Groger.WebApi.Controllers
 {
+    [Authorize]
+    [RoutePrefix("api/clusters")]
     public class ClustersController : BaseApiController
     {
 
@@ -25,15 +28,19 @@ namespace Groger.WebApi.Controllers
         }
 
         // GET: api/Clusters
-        [Authorize]
-        public IQueryable<GetClusterDTO> GetClusters()
+        [HttpGet]
+        [Route("")]
+        [SwaggerResponse(HttpStatusCode.OK, "Cluster list", typeof(IEnumerable<GetClusterDTO>))]
+        public IHttpActionResult GetClusters()
         {
             var clustersDTO = Mapper.Map<IEnumerable<GetClusterDTO>>(UserRecord.Clusters);
 
-            return clustersDTO.AsQueryable();
+            return Ok(clustersDTO);
         }
 
         // GET: api/Clusters/5
+        [HttpGet]
+        [Route("{id:int}", Name = "GetCluster")]
         [ResponseType(typeof(GetClusterDTO))]
         public IHttpActionResult GetCluster(int id)
         {
@@ -48,8 +55,10 @@ namespace Groger.WebApi.Controllers
         }
 
         // PUT: api/Clusters/5
+        [HttpPut]
+        [Route("{id:int}")]
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutCluster(int id, ClusterDTO cluster)
+        public IHttpActionResult PutCluster(int id, [FromBody] ClusterDTO cluster)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -79,8 +88,10 @@ namespace Groger.WebApi.Controllers
         }
 
         // POST: api/Clusters
+        [HttpPost]
+        [Route("")]
         [ResponseType(typeof(GetClusterDTO))]
-        public IHttpActionResult PostCluster(ClusterDTO cluster)
+        public IHttpActionResult PostCluster([FromBody] ClusterDTO cluster)
         {
             if (!ModelState.IsValid)
             {
@@ -90,16 +101,19 @@ namespace Groger.WebApi.Controllers
             var entity = new Cluster()
             {
                 Name = cluster.Name,
-                Description = cluster.Description
+                Description = cluster.Description,
+                ApplicationUsers = new List<ApplicationUser>() { UserRecord }
             };
 
             UnitOfWork.ClusterRepository.Insert(entity);
             UnitOfWork.Save();
 
-            return CreatedAtRoute("DefaultApi", new { id = entity.Id }, Mapper.Map<GetClusterDTO>(entity));
+            return CreatedAtRoute("GetCluster", new { id = entity.Id }, Mapper.Map<GetClusterDTO>(entity));
         }
 
         // DELETE: api/Clusters/5
+        [HttpDelete]
+        [Route("{id:int}")]
         [ResponseType(typeof(GetClusterDTO))]
         public IHttpActionResult DeleteCluster(int id)
         {
@@ -114,15 +128,6 @@ namespace Groger.WebApi.Controllers
             UnitOfWork.Save();
 
             return Ok(Mapper.Map<GetClusterDTO>(cluster));
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                UnitOfWork.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

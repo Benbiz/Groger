@@ -7,17 +7,21 @@ using System.Web.Http;
 
 namespace Groger.WebApi.Controllers
 {
-    public class AccountController : BaseApiController
+    [RoutePrefix("api/Users")]
+    [Authorize]
+    public class UsersController : BaseApiController
     {
-        public AccountController(IUnitOfWork unit)
+        public UsersController(IUnitOfWork unit)
             : base(unit)
         {
         }
 
-        public AccountController()
+        public UsersController()
         {
         }
 
+        [HttpPost]
+        [Route("")]
         [AllowAnonymous]
         public async Task<IHttpActionResult> Register(User user)
         {
@@ -36,6 +40,7 @@ namespace Groger.WebApi.Controllers
             return Ok();
         }
 
+        #region Dispose Implementation
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -67,5 +72,6 @@ namespace Groger.WebApi.Controllers
             }
             return null;
         }
+        #endregion
     }
 }

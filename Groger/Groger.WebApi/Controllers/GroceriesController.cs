@@ -3,6 +3,7 @@ using Groger.DAL;
 using Groger.DTO;
 using Groger.Entity;
 using Swashbuckle.Swagger.Annotations;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -12,6 +13,8 @@ using System.Web.Http.Description;
 
 namespace Groger.WebApi.Controllers
 {
+    [Authorize]
+    [RoutePrefix("api/clusters/{clusterId:int}/groceries")]
     public class GroceriesController : BaseApiController
     {
         public GroceriesController()
@@ -24,82 +27,131 @@ namespace Groger.WebApi.Controllers
         }
 
         // GET: api/Grocery
-        [SwaggerResponse(HttpStatusCode.OK, "Grocery list", typeof(GroceryDTO))]
-        public IQueryable<GroceryDTO> GetGroceries()
+        [HttpGet]
+        [Route("")]
+        [SwaggerResponse(HttpStatusCode.OK, "Grocery list", typeof(IEnumerable<GetGroceryDTO>))]
+        public IHttpActionResult GetGroceries(int clusterId)
         {
-            var groceries = Mapper.Map<IEnumerable<GroceryDTO>>(UnitOfWork.GroceryRepository.Get());
-            return groceries.AsQueryable();
+            Cluster cluster = UnitOfWork.ClusterRepository.GetByID(clusterId);
+
+            if (cluster == null)
+                return NotFound();
+            else if (cluster.ApplicationUsers.FirstOrDefault(x => x.Id == UserRecord.Id) == null)
+                return Unauthorized();
+
+            return Ok(Mapper.Map<IEnumerable<GetGroceryDTO>>(cluster.Groceries));
         }
 
         // GET: api/Grocery/5
-        [ResponseType(typeof(GroceryDTO))]
-        public IHttpActionResult GetGrocery(int id)
+        [HttpGet]
+        [Route("{id:int}")]
+        [ResponseType(typeof(GetGroceryDTO))]
+        public IHttpActionResult GetGrocery(int clusterId, int id)
         {
-            var entity = UnitOfWork.GroceryRepository.GetByID(id);
+            Cluster cluster = UnitOfWork.ClusterRepository.GetByID(clusterId);
+
+            if (cluster == null)
+                return NotFound();
+            else if (cluster.ApplicationUsers.FirstOrDefault(x => x.Id == UserRecord.Id) == null)
+                return Unauthorized();
+
+            var entity = cluster.Groceries.FirstOrDefault(x => x.Id == id);
             if (entity == null)
             {
                 return NotFound();
             }
-            GroceryDTO groceryDTO = Mapper.Map<GroceryDTO>(entity);
-            return Ok(groceryDTO);
+            
+            return Ok(Mapper.Map<GetGroceryDTO>(entity));
         }
 
         // PUT: api/Grocery/5
+        [HttpPut]
+        [Route("{id:int}", Name = "GetGrocery")]
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutGrocery(int id, Grocery grocery)
+        public IHttpActionResult PutGrocery(int clusterId, int id, GroceryDTO grocery)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
-            if (id != grocery.Id)
+            Cluster cluster = UnitOfWork.ClusterRepository.GetByID(clusterId);
+
+            if (cluster == null)
+                return NotFound();
+            else if (cluster.ApplicationUsers.FirstOrDefault(x => x.Id == UserRecord.Id) == null)
+                return Unauthorized();
+
+            var entity = cluster.Groceries.FirstOrDefault(x => x.Id == id);
+            if (entity == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            UnitOfWork.GroceryRepository.Update(grocery);
+            entity.Name = grocery.Name;
+            entity.Description = grocery.Description;
+            entity.Quantity = grocery.Quantity;
+
+            UnitOfWork.GroceryRepository.Update(entity);
 
             try
             {
                 UnitOfWork.Save();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException e)
             {
-                if (UnitOfWork.GroceryRepository.GetByID(id) == null)
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return InternalServerError(new Exception(string.Format("Failed to update grocery {0}", entity.Id), e));
             }
 
             return StatusCode(HttpStatusCode.NoContent);
         }
 
         // POST: api/Grocery
-        [ResponseType(typeof(Grocery))]
-        public IHttpActionResult PostGrocery(Grocery grocery)
+        [HttpPost]
+        [Route("")]
+        [ResponseType(typeof(GetGroceryDTO))]
+        public IHttpActionResult PostGrocery(int clusterId, GroceryDTO grocery)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            UnitOfWork.GroceryRepository.Insert(grocery);
+            Cluster cluster = UnitOfWork.ClusterRepository.GetByID(clusterId);
+
+            if (cluster == null)
+                return NotFound();
+            else if (cluster.ApplicationUsers.FirstOrDefault(x => x.Id == UserRecord.Id) == null)
+                return Unauthorized();
+
+            Grocery entity = new Grocery()
+            {
+                Name = grocery.Name,
+                Cluster = cluster,
+                ClusterId = cluster.Id,
+                Quantity = grocery.Quantity,
+                Description = grocery.Description
+            };
+
+            UnitOfWork.GroceryRepository.Insert(entity);
             UnitOfWork.Save();
 
-            return CreatedAtRoute("DefaultApi", new { id = grocery.Id }, grocery);
+            return CreatedAtRoute("GetGrocery", new { clusterId = clusterId, id = entity.Id }, Mapper.Map<GetGroceryDTO>(entity));
         }
 
         // DELETE: api/Grocery/5
-        [ResponseType(typeof(Grocery))]
-        public IHttpActionResult DeleteGroceryDTO(int id)
+        [HttpDelete]
+        [Route("{id:int}")]
+        [ResponseType(typeof(GetGroceryDTO))]
+        public IHttpActionResult DeleteGroceryDTO(int clusterId, int id)
         {
-            Grocery grocery = UnitOfWork.GroceryRepository.GetByID(id);
-            if (grocery == null)
+            Cluster cluster = UnitOfWork.ClusterRepository.GetByID(clusterId);
+
+            if (cluster == null)
+                return NotFound();
+            else if (cluster.ApplicationUsers.FirstOrDefault(x => x.Id == UserRecord.Id) == null)
+                return Unauthorized();
+
+            var entity = cluster.Groceries.FirstOrDefault(x => x.Id == id);
+            if (entity == null)
             {
                 return NotFound();
             }
@@ -107,16 +159,7 @@ namespace Groger.WebApi.Controllers
             UnitOfWork.GroceryRepository.Delete(id);
             UnitOfWork.Save();
 
-            return Ok(grocery);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                UnitOfWork.Dispose();
-            }
-            base.Dispose(disposing);
+            return Ok(Mapper.Map<GetGroceryDTO>(entity));
         }
     }
 }

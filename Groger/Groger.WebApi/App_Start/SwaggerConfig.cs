@@ -10,11 +10,11 @@ namespace Groger.WebApi
     {
         public void Apply(SwaggerDocument swaggerDoc, SchemaRegistry schemaRegistry, IApiExplorer apiExplorer)
         {
-            swaggerDoc.paths.Add("/token", new PathItem
+            swaggerDoc.paths.Add("/api/Users/Token", new PathItem
             {
                 post = new Operation
                 {
-                    tags = new List<string> { "Account" },
+                    tags = new List<string> { "Users" },
                     consumes = new List<string>
                     {
                         "application/x-www-form-urlencoded"
@@ -32,14 +32,15 @@ namespace Groger.WebApi
                     {
                         type = "string",
                         name = "username",
-                        required = false,
+                        required = true,
                         @in = "formData"
                     },
                     new Parameter
                     {
                         type = "string",
                         name = "password",
-                        required = false,
+                        required = true,
+                        format = "password",
                         @in = "formData"
                     }
                 }
