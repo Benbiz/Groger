@@ -56,6 +56,8 @@
     <Compile Include="Cluster.cs" />
     <Compile Include="Grocery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shopping\ShoppingItem.cs" />
+    <Compile Include="Shopping\ShoppingList.cs" />
     <Compile Include="User.cs" />
     <Compile Include="ApplicationUser.cs" />
   </ItemGroup>

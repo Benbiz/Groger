@@ -86,6 +86,10 @@
     <Compile Include="Migrations\201707271759562_UpdateDataAnnotation1.Designer.cs">
       <DependentUpon>201707271759562_UpdateDataAnnotation1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201707311545334_Pictures.cs" />
+    <Compile Include="Migrations\201707311545334_Pictures.Designer.cs">
+      <DependentUpon>201707311545334_Pictures.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Providers\SimpleAuthorizationServerProvider.cs" />
     <Compile Include="Repositories\AuthRepository.cs" />
@@ -118,6 +122,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201707271759562_UpdateDataAnnotation1.resx">
       <DependentUpon>201707271759562_UpdateDataAnnotation1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707311545334_Pictures.resx">
+      <DependentUpon>201707311545334_Pictures.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

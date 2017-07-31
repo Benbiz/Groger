@@ -15,6 +15,8 @@ namespace Groger.Entity
         [Required]
         [Range(0, uint.MaxValue)]
         public uint Quantity { get; set; }
+        [Url]
+        public string Picture { get; set; }
 
         [Required]
         public int ClusterId { get; set; }

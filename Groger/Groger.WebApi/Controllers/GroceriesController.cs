@@ -89,6 +89,7 @@ namespace Groger.WebApi.Controllers
             entity.Name = grocery.Name;
             entity.Description = grocery.Description;
             entity.Quantity = grocery.Quantity;
+            entity.Picture = grocery.Picture;
 
             UnitOfWork.GroceryRepository.Update(entity);
 
@@ -128,7 +129,8 @@ namespace Groger.WebApi.Controllers
                 Cluster = cluster,
                 ClusterId = cluster.Id,
                 Quantity = grocery.Quantity,
-                Description = grocery.Description
+                Description = grocery.Description,
+                Picture = grocery.Picture
             };
 
             UnitOfWork.GroceryRepository.Insert(entity);
