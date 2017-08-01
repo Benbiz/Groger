@@ -12,7 +12,7 @@ using System.Web.Http.Description;
 
 namespace Groger.WebApi.Controllers
 {
-    [RoutePrefix("api/clusters/{id:int}/Users")]
+    [RoutePrefix("api/clusters/{id:int}/users")]
     public class ClusterUsersController : BaseApiController
     {
         public ClusterUsersController()

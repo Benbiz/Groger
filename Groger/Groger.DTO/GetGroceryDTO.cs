@@ -8,5 +8,6 @@
         public int Quantity { get; set; }
         public int ClusterId { get; set; }
         public string Picture { get; set; }
+        public string Category { get; set; }
     }
 }

@@ -60,7 +60,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoMapperConfiguration.cs" />
+    <Compile Include="CategoryDTO.cs" />
     <Compile Include="ClusterDTO.cs" />
+    <Compile Include="GetCategoryDTO.cs" />
     <Compile Include="GetClusterDTO.cs" />
     <Compile Include="GetGroceryDTO.cs" />
     <Compile Include="GroceryDTO.cs" />

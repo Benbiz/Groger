@@ -7,13 +7,13 @@ namespace Groger.DAL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class UpdateDataAnnotation : IMigrationMetadata
+    public sealed partial class Rebase : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(UpdateDataAnnotation));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Rebase));
         
         string IMigrationMetadata.Id
         {
-            get { return "201707271758064_UpdateDataAnnotation"; }
+            get { return "201708010833460_Rebase"; }
         }
         
         string IMigrationMetadata.Source

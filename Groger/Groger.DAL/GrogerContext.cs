@@ -20,5 +20,7 @@ namespace Groger.DAL
         public DbSet<Grocery> Groceries { get; set; }
 
         public DbSet<Cluster> Clusters { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
     }
 }

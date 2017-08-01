@@ -44,7 +44,7 @@ namespace Groger.WebApi.Controllers
 
         // GET: api/Grocery/5
         [HttpGet]
-        [Route("{id:int}")]
+        [Route("{id:int}", Name = "GetGrocery")]
         [ResponseType(typeof(GetGroceryDTO))]
         public IHttpActionResult GetGrocery(int clusterId, int id)
         {
@@ -66,7 +66,7 @@ namespace Groger.WebApi.Controllers
 
         // PUT: api/Grocery/5
         [HttpPut]
-        [Route("{id:int}", Name = "GetGrocery")]
+        [Route("{id:int}")]
         [ResponseType(typeof(void))]
         public IHttpActionResult PutGrocery(int clusterId, int id, GroceryDTO grocery)
         {

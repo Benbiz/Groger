@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Category.cs" />
     <Compile Include="Cluster.cs" />
     <Compile Include="Grocery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

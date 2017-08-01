@@ -70,25 +70,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201707161246554_Initial.cs" />
-    <Compile Include="Migrations\201707161246554_Initial.Designer.cs">
-      <DependentUpon>201707161246554_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201708010833460_Rebase.cs" />
+    <Compile Include="Migrations\201708010833460_Rebase.Designer.cs">
+      <DependentUpon>201708010833460_Rebase.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201707261756442_Initial1.cs" />
-    <Compile Include="Migrations\201707261756442_Initial1.Designer.cs">
-      <DependentUpon>201707261756442_Initial1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201707271758064_UpdateDataAnnotation.cs" />
-    <Compile Include="Migrations\201707271758064_UpdateDataAnnotation.Designer.cs">
-      <DependentUpon>201707271758064_UpdateDataAnnotation.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201707271759562_UpdateDataAnnotation1.cs" />
-    <Compile Include="Migrations\201707271759562_UpdateDataAnnotation1.Designer.cs">
-      <DependentUpon>201707271759562_UpdateDataAnnotation1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201707311545334_Pictures.cs" />
-    <Compile Include="Migrations\201707311545334_Pictures.Designer.cs">
-      <DependentUpon>201707311545334_Pictures.cs</DependentUpon>
+    <Compile Include="Migrations\201708010951046_toInt.cs" />
+    <Compile Include="Migrations\201708010951046_toInt.Designer.cs">
+      <DependentUpon>201708010951046_toInt.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Providers\SimpleAuthorizationServerProvider.cs" />
@@ -111,20 +99,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201707161246554_Initial.resx">
-      <DependentUpon>201707161246554_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201708010833460_Rebase.resx">
+      <DependentUpon>201708010833460_Rebase.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201707261756442_Initial1.resx">
-      <DependentUpon>201707261756442_Initial1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201707271758064_UpdateDataAnnotation.resx">
-      <DependentUpon>201707271758064_UpdateDataAnnotation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201707271759562_UpdateDataAnnotation1.resx">
-      <DependentUpon>201707271759562_UpdateDataAnnotation1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201707311545334_Pictures.resx">
-      <DependentUpon>201707311545334_Pictures.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201708010951046_toInt.resx">
+      <DependentUpon>201708010951046_toInt.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

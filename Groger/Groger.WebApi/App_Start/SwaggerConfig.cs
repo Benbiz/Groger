@@ -10,7 +10,7 @@ namespace Groger.WebApi
     {
         public void Apply(SwaggerDocument swaggerDoc, SchemaRegistry schemaRegistry, IApiExplorer apiExplorer)
         {
-            swaggerDoc.paths.Add("/api/Users/Token", new PathItem
+            swaggerDoc.paths.Add("/api/users/token", new PathItem
             {
                 post = new Operation
                 {

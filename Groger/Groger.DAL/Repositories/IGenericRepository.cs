@@ -19,6 +19,8 @@ namespace Groger.DAL.Repositories
 
         TEntity GetByID(object id);
 
+        IQueryable<TEntity> GetQueryable();
+
         void Insert(TEntity entity);
 
         void Delete(object ID);

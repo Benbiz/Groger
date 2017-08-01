@@ -3,16 +3,16 @@ namespace Groger.DAL.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Pictures : DbMigration
+    public partial class toInt : DbMigration
     {
         public override void Up()
         {
-            AddColumn("dbo.Groceries", "Picture", c => c.String());
+            AddColumn("dbo.Groceries", "Quantity", c => c.Int(nullable: false));
         }
         
         public override void Down()
         {
-            DropColumn("dbo.Groceries", "Picture");
+            DropColumn("dbo.Groceries", "Quantity");
         }
     }
 }

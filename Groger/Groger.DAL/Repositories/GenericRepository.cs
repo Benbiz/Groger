@@ -52,6 +52,11 @@ namespace Groger.DAL.Repositories
             }
         }
 
+        public virtual IQueryable<TEntity> GetQueryable()
+        {
+            return dbSet;
+        }
+
         public virtual TEntity GetByID(object id)
         {
             return dbSet.Find(id);

@@ -3,17 +3,44 @@ namespace Groger.DAL.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Initial : DbMigration
+    public partial class Rebase : DbMigration
     {
         public override void Up()
         {
             CreateTable(
-                "dbo.Clusters",
+                "dbo.Categories",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false),
                         Description = c.String(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.Groceries",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(nullable: false, maxLength: 100),
+                        Description = c.String(nullable: false, maxLength: 100),
+                        Picture = c.String(),
+                        CategoryId = c.Int(nullable: false),
+                        ClusterId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Categories", t => t.CategoryId, cascadeDelete: true)
+                .ForeignKey("dbo.Clusters", t => t.ClusterId, cascadeDelete: true)
+                .Index(t => t.CategoryId)
+                .Index(t => t.ClusterId);
+            
+            CreateTable(
+                "dbo.Clusters",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(nullable: false, maxLength: 100),
+                        Description = c.String(nullable: false, maxLength: 100),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -76,20 +103,6 @@ namespace Groger.DAL.Migrations
                 .Index(t => t.RoleId);
             
             CreateTable(
-                "dbo.Groceries",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false),
-                        Description = c.String(nullable: false),
-                        Quantity = c.Int(nullable: false),
-                        ClusterId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Clusters", t => t.ClusterId, cascadeDelete: true)
-                .Index(t => t.ClusterId);
-            
-            CreateTable(
                 "dbo.AspNetRoles",
                 c => new
                     {
@@ -123,23 +136,26 @@ namespace Groger.DAL.Migrations
             DropForeignKey("dbo.ApplicationUserClusters", "Cluster_Id", "dbo.Clusters");
             DropForeignKey("dbo.ApplicationUserClusters", "ApplicationUser_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Groceries", "CategoryId", "dbo.Categories");
             DropIndex("dbo.ApplicationUserClusters", new[] { "Cluster_Id" });
             DropIndex("dbo.ApplicationUserClusters", new[] { "ApplicationUser_Id" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
-            DropIndex("dbo.Groceries", new[] { "ClusterId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
+            DropIndex("dbo.Groceries", new[] { "ClusterId" });
+            DropIndex("dbo.Groceries", new[] { "CategoryId" });
             DropTable("dbo.ApplicationUserClusters");
             DropTable("dbo.AspNetRoles");
-            DropTable("dbo.Groceries");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.Clusters");
+            DropTable("dbo.Groceries");
+            DropTable("dbo.Categories");
         }
     }
 }
