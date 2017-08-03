@@ -60,7 +60,7 @@ namespace Groger.WebApi.Controllers
             {
                 return NotFound();
             }
-            
+
             return Ok(Mapper.Map<GetGroceryDTO>(entity));
         }
 
@@ -84,12 +84,21 @@ namespace Groger.WebApi.Controllers
             if (entity == null)
             {
                 return NotFound();
+
+            }
+            Category category = null;
+            if (grocery.Category != null)
+            {
+                category = UnitOfWork.CategoryRepository.Get(x => x.Name == grocery.Category).FirstOrDefault();
+                if (category == null)
+                    return (BadRequest("Category name is unknown"));
             }
 
             entity.Name = grocery.Name;
             entity.Description = grocery.Description;
             entity.Quantity = grocery.Quantity;
             entity.Picture = grocery.Picture;
+            entity.Category = category;
 
             UnitOfWork.GroceryRepository.Update(entity);
 
@@ -123,6 +132,14 @@ namespace Groger.WebApi.Controllers
             else if (cluster.ApplicationUsers.FirstOrDefault(x => x.Id == UserRecord.Id) == null)
                 return Unauthorized();
 
+            Category category = null;
+            if (grocery.Category != null)
+            {
+                category = UnitOfWork.CategoryRepository.Get(x => x.Name == grocery.Category).FirstOrDefault();
+                if (category == null)
+                    return (BadRequest("Category name is unknown"));
+            }
+
             Grocery entity = new Grocery()
             {
                 Name = grocery.Name,
@@ -130,6 +147,7 @@ namespace Groger.WebApi.Controllers
                 ClusterId = cluster.Id,
                 Quantity = grocery.Quantity,
                 Description = grocery.Description,
+                Category = category,
                 Picture = grocery.Picture
             };
 

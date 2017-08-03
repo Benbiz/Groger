@@ -15,5 +15,6 @@ namespace Groger.DTO
         public int Quantity { get; set; }
         [Url]
         public string Picture { get; set; }
+        public string Category { get; set; }
     }
 }

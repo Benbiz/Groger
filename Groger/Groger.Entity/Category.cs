@@ -14,6 +14,7 @@ namespace Groger.Entity
         public int Id { get; set; }
         [Required]
         [Index(IsUnique = true)]
+        [StringLength(450)]
         public string Name { get; set; }
         [Required]
         public string Description { get; set; }
