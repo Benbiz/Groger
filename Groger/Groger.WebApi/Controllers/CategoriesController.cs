@@ -25,48 +25,6 @@ namespace Groger.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("")]
-        public IHttpActionResult GetCategories()
-        {
-            IQueryable<Cluster> query = UserRecord.Clusters.AsQueryable();
-
-            IQueryable<Grocery> gro = query.SelectMany(x => x.Groceries);
-
-            var cat = gro.Select(x => x.Category).GroupBy(x => x);
-
-            List<GetCategoryDTO> cats = new List<GetCategoryDTO>();
-
-            foreach (IGrouping<Category, Category> group in cat)
-            {
-                var dto = Mapper.Map<GetCategoryDTO>(group.Key);
-                dto.Quantity = group.Count();
-                cats.Add(dto);
-            }
-
-            return Ok(cats);
-        }
-
-        [HttpGet]
-        [Route("{id:int}", Name = "GetCategory")]
-        public IHttpActionResult GetGrocery(int id)
-        {
-            IQueryable<Cluster> query = UserRecord.Clusters.AsQueryable();
-
-            IQueryable<Grocery> gro = query.SelectMany(x => x.Groceries);
-
-            var cats = gro.Select(x => x.Category).GroupBy(x => x);
-
-            var cat = cats.FirstOrDefault(x => x.Key.Id == id);
-            if (cat == null)
-                return NotFound();
-
-            var dto = Mapper.Map<GetCategoryDTO>(cat.Key);
-            dto.Quantity = cat.Count();
-
-            return Ok(dto);
-        }
-
-        [HttpGet]
         [Route("search")]
         public IHttpActionResult SearchCategories([FromUri] string query)
         {

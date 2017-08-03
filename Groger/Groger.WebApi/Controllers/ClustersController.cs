@@ -129,5 +129,53 @@ namespace Groger.WebApi.Controllers
 
             return Ok(Mapper.Map<GetClusterDTO>(cluster));
         }
+
+        [HttpGet]
+        [Route("{id:int}/categories")]
+        public IHttpActionResult GetCategories(int id)
+        {
+            Cluster cluster = UnitOfWork.ClusterRepository.GetByID(id);
+
+            if (cluster == null)
+                return NotFound();
+            else if (cluster.ApplicationUsers.FirstOrDefault(x => x.Id == UserRecord.Id) == null)
+                return Unauthorized();
+
+            var cat = cluster.Groceries.Select(x => x.Category).GroupBy(x => x);
+
+            List<GetCategoryDTO> cats = new List<GetCategoryDTO>();
+
+            foreach (IGrouping<Category, Category> group in cat)
+            {
+                var dto = Mapper.Map<GetCategoryDTO>(group.Key);
+                dto.Quantity = group.Count();
+                cats.Add(dto);
+            }
+
+            return Ok(cats);
+        }
+
+        [HttpGet]
+        [Route("{id:int}/categories/{categoryId}", Name = "GetCategory")]
+        public IHttpActionResult GetCategory(int id, int categoryId)
+        {
+            Cluster cluster = UnitOfWork.ClusterRepository.GetByID(id);
+
+            if (cluster == null)
+                return NotFound();
+            else if (cluster.ApplicationUsers.FirstOrDefault(x => x.Id == UserRecord.Id) == null)
+                return Unauthorized();
+
+            var cats = cluster.Groceries.Select(x => x.Category).GroupBy(x => x);
+
+            var cat = cats.FirstOrDefault(x => x.Key.Id == categoryId);
+            if (cat == null)
+                return NotFound();
+
+            var dto = Mapper.Map<GetCategoryDTO>(cat.Key);
+            dto.Quantity = cat.Count();
+
+            return Ok(dto);
+        }
     }
 }
