@@ -17,9 +17,8 @@ namespace Groger.Entity
         public int Quantity { get; set; }
         [Url]
         public string Picture { get; set; }
-
-        [Required]
-        public int CategoryId { get; set; }
+        
+        public int? CategoryId { get; set; }
         public virtual Category Category { get; set; }
 
         [Required]

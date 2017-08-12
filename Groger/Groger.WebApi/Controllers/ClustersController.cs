@@ -147,9 +147,23 @@ namespace Groger.WebApi.Controllers
 
             foreach (IGrouping<Category, Category> group in cat)
             {
-                var dto = Mapper.Map<GetCategoryDTO>(group.Key);
-                dto.Quantity = group.Count();
-                cats.Add(dto);
+                if (group.Key == null)
+                {
+                    var dto = new GetCategoryDTO()
+                    {
+                       Name = "No category",
+                       Id = -1,
+                       Description = "Groceries without category"
+                    };
+                    dto.Quantity = group.Count();
+                    cats.Add(dto);
+                }
+                else
+                {
+                    var dto = Mapper.Map<GetCategoryDTO>(group.Key);
+                    dto.Quantity = group.Count();
+                    cats.Add(dto);
+                }
             }
 
             return Ok(cats);

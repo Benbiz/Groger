@@ -30,16 +30,29 @@ namespace Groger.WebApi.Controllers
         [HttpGet]
         [Route("")]
         [SwaggerResponse(HttpStatusCode.OK, "Grocery list", typeof(IEnumerable<GetGroceryDTO>))]
-        public IHttpActionResult GetGroceries(int clusterId)
+        public IHttpActionResult GetGroceries(int clusterId, [FromUri] GroceryDTO filter = null)
         {
             Cluster cluster = UnitOfWork.ClusterRepository.GetByID(clusterId);
+            IEnumerable<Grocery> groceries = cluster.Groceries;
 
             if (cluster == null)
                 return NotFound();
             else if (cluster.ApplicationUsers.FirstOrDefault(x => x.Id == UserRecord.Id) == null)
                 return Unauthorized();
 
-            return Ok(Mapper.Map<IEnumerable<GetGroceryDTO>>(cluster.Groceries));
+            if (filter.Category != null && filter.Category.Length != 0)
+                groceries = groceries.Where(x => x.Category.Name == filter.Category);
+            else if (filter.Category == null)
+                groceries = groceries.Where(x => x.Category == null);
+
+            if (filter.Name != null && filter.Name.Length != 0)
+                groceries = groceries.Where(x => x.Name.Contains(filter.Name));
+            if (filter.Description != null && filter.Description.Length != 0)
+                groceries = groceries.Where(x => x.Description.Contains(filter.Description));
+            if (filter.Picture != null && filter.Picture.Length != 0)
+                groceries = groceries.Where(x => x.Picture.Contains(filter.Picture));
+            
+            return Ok(Mapper.Map<IEnumerable<GetGroceryDTO>>(groceries));
         }
 
         // GET: api/Grocery/5

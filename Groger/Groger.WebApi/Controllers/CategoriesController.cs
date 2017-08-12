@@ -26,9 +26,9 @@ namespace Groger.WebApi.Controllers
 
         [HttpGet]
         [Route("search")]
-        public IHttpActionResult SearchCategories([FromUri] string query)
+        public IHttpActionResult SearchCategories([FromUri] CategoryDTO query)
         {
-            var cat = UnitOfWork.CategoryRepository.Get(x => x.Name.Contains(query) || x.Description.Contains(query));
+            var cat = UnitOfWork.CategoryRepository.Get(x => x.Name.Contains(query.Name) || x.Description.Contains(query.Description));
 
             return Ok(Mapper.Map<IEnumerable<CategoryDTO>>(cat));
         }

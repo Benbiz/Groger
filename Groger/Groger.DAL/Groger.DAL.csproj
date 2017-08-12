@@ -82,6 +82,10 @@
     <Compile Include="Migrations\201708030834557_searchcategory.Designer.cs">
       <DependentUpon>201708030834557_searchcategory.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201708031015038_OptionalCategoryId.cs" />
+    <Compile Include="Migrations\201708031015038_OptionalCategoryId.Designer.cs">
+      <DependentUpon>201708031015038_OptionalCategoryId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Providers\SimpleAuthorizationServerProvider.cs" />
     <Compile Include="Repositories\AuthRepository.cs" />
@@ -111,6 +115,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708030834557_searchcategory.resx">
       <DependentUpon>201708030834557_searchcategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708031015038_OptionalCategoryId.resx">
+      <DependentUpon>201708031015038_OptionalCategoryId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
