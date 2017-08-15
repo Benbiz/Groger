@@ -31,10 +31,9 @@ namespace Groger.WebApi.Controllers
         [HttpGet]
         [Route("")]
         [SwaggerResponse(HttpStatusCode.OK, "Grocery list", typeof(IEnumerable<GetGroceryDTO>))]
-        public IHttpActionResult GetGroceries(int clusterId, [FromUri] RestQueryParams<Grocery> param = null)
+        public IHttpActionResult GetGroceries(int clusterId, [FromUri] RestQueryParams<GetGroceryDTO> param = null)
         {
             Cluster cluster = UnitOfWork.ClusterRepository.GetByID(clusterId);
-            IEnumerable<Grocery> groceries = cluster.Groceries;
 
             if (cluster == null)
                 return NotFound();
@@ -44,9 +43,10 @@ namespace Groger.WebApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest();
 
+            IEnumerable<Grocery> groceries = cluster.Groceries;
             if (param != null)
             {
-                groceries = groceries.Where(param.IsOk);
+                groceries = groceries.Where(x => param.IsOk(Mapper.Map<GetGroceryDTO>(x)));
             }
             
             return Ok(Mapper.Map<IEnumerable<GetGroceryDTO>>(groceries).AsQueryable());
