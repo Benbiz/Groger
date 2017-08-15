@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using System;
-using System.Linq;
 using Groger.Entity;
+using System.Linq;
 
 namespace Groger.DTO
 {

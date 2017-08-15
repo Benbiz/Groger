@@ -1,6 +1,5 @@
 ﻿using Groger.Entity;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Threading.Tasks;
 

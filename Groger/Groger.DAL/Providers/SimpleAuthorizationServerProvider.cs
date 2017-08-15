@@ -1,6 +1,5 @@
 ﻿using Groger.DAL.Repositories;
 using Groger.Entity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security.OAuth;
 using System.Security.Claims;
 using System.Threading.Tasks;
