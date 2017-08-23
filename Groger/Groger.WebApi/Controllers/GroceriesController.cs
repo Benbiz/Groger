@@ -108,7 +108,10 @@ namespace Groger.WebApi.Controllers
             entity.Description = grocery.Description;
             entity.Quantity = grocery.Quantity;
             entity.Picture = grocery.Picture;
-            entity.Category = category;
+            if (category == null)
+                entity.CategoryId = null;
+            else
+                entity.Category = category;
 
             UnitOfWork.GroceryRepository.Update(entity);
 

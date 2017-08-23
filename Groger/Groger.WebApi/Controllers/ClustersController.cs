@@ -151,9 +151,9 @@ namespace Groger.WebApi.Controllers
                 {
                     var dto = new GetCategoryDTO()
                     {
-                       Name = "No category",
-                       Id = -1,
-                       Description = "Groceries without category"
+                       Name = null,
+                       Id = null,
+                       Description = null
                     };
                     dto.Quantity = group.Count();
                     cats.Add(dto);

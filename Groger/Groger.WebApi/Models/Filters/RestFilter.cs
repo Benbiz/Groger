@@ -16,7 +16,6 @@ namespace Groger.WebApi.Models.Filters
         [Required]
         public FilterOperators Operator { get; set; }
 
-        [Required]
         public string Value { get; set; }
 
         public object GetValue()
@@ -67,24 +66,22 @@ namespace Groger.WebApi.Models.Filters
 
             object ActualValue = info.GetValue(entity);
             object FilterValue = GetValue();
-            if (FilterValue == null)
-                return true;
 
             IComparable CompareActual = ActualValue as IComparable;
 
             switch (Operator)
             {
                 case FilterOperators.Eq:
-                    return ActualValue.Equals(FilterValue);
+                    return ActualValue == FilterValue || (ActualValue != null && ActualValue.Equals(FilterValue));
                 case FilterOperators.Le:
                 case FilterOperators.Ge:
                 case FilterOperators.Lt:
                 case FilterOperators.Gt:
                     if (CompareActual == null)
-                        return true;
+                        return false;
                     break;
                 case FilterOperators.Like:
-                    if ((ActualValue as string) == null || (FilterValue as string) == null)
+                    if ((ActualValue as string) == (FilterValue as string))
                         return true;
                     break;
             }
@@ -102,7 +99,7 @@ namespace Groger.WebApi.Models.Filters
                 case FilterOperators.Like:
                     string ActualString = ActualValue as string;
                     string FilterString = FilterValue as string;
-                    return ActualString.IndexOf(FilterString, StringComparison.CurrentCultureIgnoreCase) >= 0;
+                    return ActualString != null && FilterString != null && ActualString.IndexOf(FilterString, StringComparison.CurrentCultureIgnoreCase) >= 0;
             }
             return true;
         }
