@@ -50,7 +50,7 @@ namespace Groger.WebApi.Controllers
             var dto = Mapper.Map<GetCategoryDTO>(entity);
             dto.Quantity = 0;
 
-            return CreatedAtRoute("GetCategory", new { id = entity.Id }, dto);
+            return Ok(dto);
         }
     }
 }

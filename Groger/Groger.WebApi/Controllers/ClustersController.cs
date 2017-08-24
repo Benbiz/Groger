@@ -170,7 +170,7 @@ namespace Groger.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("{id:int}/categories/{categoryId}", Name = "GetCategory")]
+        [Route("{id:int}/categories/{categoryId}")]
         public IHttpActionResult GetCategory(int id, int categoryId)
         {
             Cluster cluster = UnitOfWork.ClusterRepository.GetByID(id);
