@@ -3,7 +3,6 @@
     public class GetClusterDTO : ClusterDTO
     {
         public int Id { get; set; }
-        public int GroceriesQuantity { get; set; }
-        public string FirstGroceryName { get; set; }
+        public uint GroceriesQuantity { get; set; }
     }
 }

@@ -141,7 +141,7 @@ namespace Groger.WebApi.Controllers
             else if (cluster.ApplicationUsers.FirstOrDefault(x => x.Id == UserRecord.Id) == null)
                 return Unauthorized();
 
-            var cat = cluster.Groceries.Select(x => x.Category).GroupBy(x => x);
+            var cat = cluster.ClusterGroceries.Select(x => x.Grocery.Category).GroupBy(x => x);
 
             List<GetCategoryDTO> cats = new List<GetCategoryDTO>();
 
@@ -180,7 +180,7 @@ namespace Groger.WebApi.Controllers
             else if (cluster.ApplicationUsers.FirstOrDefault(x => x.Id == UserRecord.Id) == null)
                 return Unauthorized();
 
-            var cats = cluster.Groceries.Select(x => x.Category).GroupBy(x => x);
+            var cats = cluster.ClusterGroceries.Select(x => x.Grocery.Category).GroupBy(x => x);
 
             var cat = cats.FirstOrDefault(x => x.Key.Id == categoryId);
             if (cat == null)

@@ -12,7 +12,7 @@ namespace Groger.DTO
         public string Description { get; set; }
         [Required]
         [Range(0, uint.MaxValue)]
-        public int Quantity { get; set; }
+        public uint Quantity { get; set; }
         [Url]
         public string Picture { get; set; }
         public string Category { get; set; }

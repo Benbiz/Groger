@@ -61,11 +61,15 @@
   <ItemGroup>
     <Compile Include="AutoMapperConfiguration.cs" />
     <Compile Include="Category\CategoryDTO.cs" />
+    <Compile Include="ClusterGroceryDTO.cs" />
     <Compile Include="Cluster\ClusterDTO.cs" />
     <Compile Include="Category\GetCategoryDTO.cs" />
     <Compile Include="Cluster\GetClusterDTO.cs" />
+    <Compile Include="Grocery\ExistingGrocery.cs" />
     <Compile Include="Grocery\GetGroceryDTO.cs" />
     <Compile Include="Grocery\GroceryDTO.cs" />
+    <Compile Include="Grocery\GrocerySearchResultDTO.cs" />
+    <Compile Include="Grocery\SearchGroceryDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserDTO.cs" />
   </ItemGroup>

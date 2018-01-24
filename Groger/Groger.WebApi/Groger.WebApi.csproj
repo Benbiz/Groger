@@ -174,10 +174,11 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\ClusterUsersController.cs" />
+    <Compile Include="Controllers\GroceriesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\BaseApiController.cs" />
     <Compile Include="Controllers\ClustersController.cs" />
-    <Compile Include="Controllers\GroceriesController.cs" />
+    <Compile Include="Controllers\ClusterGroceriesController.cs" />
     <Compile Include="Models\Filters\FilterOperators.cs" />
     <Compile Include="Models\Filters\RestFilter.cs" />
     <Compile Include="Models\RestQueryParams.cs" />

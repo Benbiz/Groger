@@ -9,6 +9,7 @@ namespace Groger.DAL
         private GrogerContext context = new GrogerContext();
         private GenericRepository<Cluster> clusterRepository;
         private GenericRepository<Grocery> groceryRepository;
+        private GenericRepository<ClusterGrocery> clusterGroceriesyRepository;
         private GenericRepository<Category> categoryRepository;
         private AuthRepository authRepository;
 
@@ -32,6 +33,18 @@ namespace Groger.DAL
                     this.groceryRepository = new GenericRepository<Grocery>(context);
                 }
                 return groceryRepository;
+            }
+        }
+
+        public IGenericRepository<ClusterGrocery> ClusterGroceriesRepository
+        {
+            get
+            {
+                if (this.clusterGroceriesyRepository == null)
+                {
+                    this.clusterGroceriesyRepository = new GenericRepository<ClusterGrocery>(context);
+                }
+                return clusterGroceriesyRepository;
             }
         }
 

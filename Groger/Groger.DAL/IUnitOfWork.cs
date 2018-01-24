@@ -10,6 +10,8 @@ namespace Groger.DAL
 
         IGenericRepository<Grocery> GroceryRepository { get; }
 
+        IGenericRepository<ClusterGrocery> ClusterGroceriesRepository { get; }
+
         IGenericRepository<Category> CategoryRepository { get; }
 
         AuthRepository  AuthRepository { get; }

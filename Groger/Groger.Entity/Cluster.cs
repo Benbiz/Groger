@@ -13,7 +13,7 @@ namespace Groger.Entity
         [StringLength(100, MinimumLength = 6)]
         public string Description { get; set; }
 
-        public virtual ICollection<Grocery> Groceries { get; set; }
+        public virtual ICollection<ClusterGrocery> ClusterGroceries { get; set; }
 
         public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }
     }
