@@ -1,26 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Groger.Entity.Shopping
+namespace Groger.DTO.ShoppingList.ShoppingItem
 {
-    public class ShoppingItem
+    public class GetShoppingItemDTO
     {
         public int Id { get; set; }
-        [Required]
         public int ClusterGroceryId { get; set; }
-        [Required]
-        public virtual ClusterGrocery Grocery { get; set; }
-        [Required]
-        [Range(0, int.MaxValue)]
         public int ToBuy { get; set; }
-        [Required]
-        [Range(0, int.MaxValue)]
         public int Brought { get; set; }
-        [Required]
         public bool Validated { get; set; }
-        [Required]
         public DateTime AddDate { get; set; }
-        [Required]
         public DateTime LastUpdate { get; set; }
         public DateTime? ValidatedDate { get; set; }
     }

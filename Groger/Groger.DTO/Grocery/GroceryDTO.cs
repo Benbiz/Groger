@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Groger.Entity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Groger.DTO
 {
@@ -12,7 +13,9 @@ namespace Groger.DTO
         public string Description { get; set; }
         [Required]
         [Range(0, uint.MaxValue)]
-        public uint Quantity { get; set; }
+        public int Quantity { get; set; }
+        [Required]
+        public GroceryUnits Unit { get; set; }
         [Url]
         public string Picture { get; set; }
         public string Category { get; set; }

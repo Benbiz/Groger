@@ -1,4 +1,5 @@
 ﻿using Groger.Entity;
+using Groger.Entity.Shopping;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 
@@ -24,5 +25,9 @@ namespace Groger.DAL
         public DbSet<ClusterGrocery> ClusterGroceries { get; set; }
 
         public DbSet<Category> Categories { get; set; }
+
+        public DbSet<ShoppingList> ShoppingLists { get; set; }
+
+        public DbSet<ShoppingItem> ShoppingItems { get; set; }
     }
 }

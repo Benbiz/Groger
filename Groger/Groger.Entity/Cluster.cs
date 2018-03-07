@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Groger.Entity.Shopping;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Groger.Entity
@@ -16,5 +17,7 @@ namespace Groger.Entity
         public virtual ICollection<ClusterGrocery> ClusterGroceries { get; set; }
 
         public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }
+
+        public virtual ICollection<ShoppingList> ShoppingLists { get; set; }
     }
 } 

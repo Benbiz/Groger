@@ -45,6 +45,8 @@ namespace Groger.DAL.Migrations
                 new Cluster() { Id = 4, Name = "Cuisine4", Description = "Ma cuisine 4", ApplicationUsers = users }
                 );
 
+
+
             var clusterGroceries = new ClusterGrocery
             {
                 ClusterId = 1,
@@ -53,7 +55,7 @@ namespace Groger.DAL.Migrations
                 UpdateTime = DateTime.Now
             };
 
-            context.ClusterGroceries.Add(clusterGroceries);
+            context.ClusterGroceries.AddOrUpdate(clusterGroceries);
 
             context.Categories.AddOrUpdate(x => x.Id,
                 new Category() { Id = 1, Name = "Tooout", Description = "Tout est fini entre noooous" }

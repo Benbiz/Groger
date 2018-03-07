@@ -10,7 +10,6 @@ namespace Groger.Entity
 {
     public class ClusterGrocery
     {
-
         [Required]
         [Key, Column(Order = 0)]
         public int ClusterId { get; set; }
@@ -32,8 +31,10 @@ namespace Groger.Entity
         /// Quantité actuellement en stock
         /// </summary>
         [Required]
-        [Range(0, uint.MaxValue)]
-        public uint Quantity { get; set; }
+        [Range(0, int.MaxValue)]
+        public int Quantity { get; set; }
+        [Required]
+        public GroceryUnits Unit { get; set; }
         public DateTime UpdateTime { get; set; }
     }
 }

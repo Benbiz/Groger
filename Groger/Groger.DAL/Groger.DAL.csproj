@@ -90,6 +90,22 @@
     <Compile Include="Migrations\201801241909557_ReworkGroceries.Designer.cs">
       <DependentUpon>201801241909557_ReworkGroceries.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801281221230_ShoppingLit.cs" />
+    <Compile Include="Migrations\201801281221230_ShoppingLit.Designer.cs">
+      <DependentUpon>201801281221230_ShoppingLit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801281247556_CommentToDescriptionShoppingList.cs" />
+    <Compile Include="Migrations\201801281247556_CommentToDescriptionShoppingList.Designer.cs">
+      <DependentUpon>201801281247556_CommentToDescriptionShoppingList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801281606291_UpdateShopping.cs" />
+    <Compile Include="Migrations\201801281606291_UpdateShopping.Designer.cs">
+      <DependentUpon>201801281606291_UpdateShopping.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802031050473_UIntNotSupportedByEF.cs" />
+    <Compile Include="Migrations\201802031050473_UIntNotSupportedByEF.Designer.cs">
+      <DependentUpon>201802031050473_UIntNotSupportedByEF.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Providers\SimpleAuthorizationServerProvider.cs" />
     <Compile Include="Repositories\AuthRepository.cs" />
@@ -125,6 +141,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801241909557_ReworkGroceries.resx">
       <DependentUpon>201801241909557_ReworkGroceries.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801281221230_ShoppingLit.resx">
+      <DependentUpon>201801281221230_ShoppingLit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801281247556_CommentToDescriptionShoppingList.resx">
+      <DependentUpon>201801281247556_CommentToDescriptionShoppingList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801281606291_UpdateShopping.resx">
+      <DependentUpon>201801281606291_UpdateShopping.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802031050473_UIntNotSupportedByEF.resx">
+      <DependentUpon>201802031050473_UIntNotSupportedByEF.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

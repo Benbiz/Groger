@@ -100,6 +100,8 @@ namespace Groger.WebApi.Controllers
 
             entity.Name = grocery.Name;
             entity.Quantity = grocery.Quantity;
+            entity.UpdateTime = DateTime.Now;
+            entity.Unit = grocery.Unit;
 
             UnitOfWork.ClusterGroceriesRepository.Update(entity);
 
@@ -146,14 +148,16 @@ namespace Groger.WebApi.Controllers
                 Name = grocery.Name,
                 Description = grocery.Description,
                 Category = category,
-                Picture = grocery.Picture
+                Picture = grocery.Picture,
             };
 
             var clusterGrocery = new ClusterGrocery()
             {
                 Cluster = cluster,
                 Grocery = entity,
-                Quantity = grocery.Quantity
+                Quantity = grocery.Quantity,
+                Unit = grocery.Unit,
+                UpdateTime = DateTime.Now
             };
 
             UnitOfWork.ClusterGroceriesRepository.Insert(clusterGrocery);
@@ -189,6 +193,7 @@ namespace Groger.WebApi.Controllers
                 Cluster = cluster,
                 Grocery = grocery,
                 Quantity = existingGrocery.Quantity,
+                Unit = existingGrocery.Unit,
                 Name = existingGrocery.Name,
                 UpdateTime = DateTime.Now
             };

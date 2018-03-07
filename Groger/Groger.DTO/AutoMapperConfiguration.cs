@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Groger.DTO.Grocery;
+using Groger.DTO.ShoppingList;
+using Groger.DTO.ShoppingList.ShoppingItem;
 using Groger.Entity;
 using System.Linq;
 
@@ -31,7 +33,10 @@ namespace Groger.DTO
 
                 cfg.CreateMap<ApplicationUser, UserDTO>();
 
-                
+                cfg.CreateMap<Entity.Shopping.ShoppingList, GetShoppingListDTO>()
+                    .ForMember(DTO => DTO.Products, conf => conf.MapFrom(ol => ol.ShoppingItems.Count()));
+
+                cfg.CreateMap<Entity.Shopping.ShoppingItem, GetShoppingItemDTO>();
             });
         }
     }

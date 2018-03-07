@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Groger.Entity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -10,7 +11,9 @@ namespace Groger.DTO.Grocery
     public class ExistingGrocery
     {
         [Required]
-        public uint Quantity { get; set; }
+        public int Quantity { get; set; }
+        [Required]
+        public GroceryUnits Unit { get; set; }
         public string Name { get; set; }
     }
 }

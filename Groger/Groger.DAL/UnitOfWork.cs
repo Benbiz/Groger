@@ -1,5 +1,6 @@
 ﻿using Groger.DAL.Repositories;
 using Groger.Entity;
+using Groger.Entity.Shopping;
 using System;
 
 namespace Groger.DAL
@@ -11,6 +12,8 @@ namespace Groger.DAL
         private GenericRepository<Grocery> groceryRepository;
         private GenericRepository<ClusterGrocery> clusterGroceriesyRepository;
         private GenericRepository<Category> categoryRepository;
+        private GenericRepository<ShoppingList> shoppingListRepository;
+        private GenericRepository<ShoppingItem> shoppingItemRepository;
         private AuthRepository authRepository;
 
         public IGenericRepository<Cluster> ClusterRepository
@@ -57,6 +60,30 @@ namespace Groger.DAL
                     this.categoryRepository = new GenericRepository<Category>(context);
                 }
                 return categoryRepository;
+            }
+        }
+
+        public IGenericRepository<ShoppingList> ShoppingListRepository
+        {
+            get
+            {
+                if (this.shoppingListRepository == null)
+                {
+                    this.shoppingListRepository = new GenericRepository<ShoppingList>(context);
+                }
+                return shoppingListRepository;
+            }
+        }
+
+        public IGenericRepository<ShoppingItem> ShoppingItemRepository
+        {
+            get
+            {
+                if (this.shoppingItemRepository == null)
+                {
+                    this.shoppingItemRepository = new GenericRepository<ShoppingItem>(context);
+                }
+                return shoppingItemRepository;
             }
         }
 
