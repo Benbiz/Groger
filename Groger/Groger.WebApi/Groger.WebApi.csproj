@@ -176,6 +176,7 @@
     <Compile Include="Controllers\ClusterUsersController.cs" />
     <Compile Include="Controllers\GroceriesController.cs" />
     <Compile Include="Controllers\ShoppingList\ShoppingItemsController.cs" />
+    <Compile Include="Controllers\ShoppingList\ShoppingModelListsController.cs" />
     <Compile Include="Controllers\ShoppingList\ShoppingListsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\BaseApiController.cs" />

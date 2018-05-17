@@ -14,6 +14,8 @@ namespace Groger.DAL
         private GenericRepository<Category> categoryRepository;
         private GenericRepository<ShoppingList> shoppingListRepository;
         private GenericRepository<ShoppingItem> shoppingItemRepository;
+        private GenericRepository<ShoppingModelList> shoppingModelListRepository;
+        private GenericRepository<ShoppingModelItem> shoppingModelItemRepository;
         private AuthRepository authRepository;
 
         public IGenericRepository<Cluster> ClusterRepository
@@ -75,6 +77,18 @@ namespace Groger.DAL
             }
         }
 
+        public IGenericRepository<ShoppingModelList> ShoppingModelListRepository
+        {
+            get
+            {
+                if (this.shoppingModelListRepository == null)
+                {
+                    this.shoppingModelListRepository = new GenericRepository<ShoppingModelList>(context);
+                }
+                return shoppingModelListRepository;
+            }
+        }
+
         public IGenericRepository<ShoppingItem> ShoppingItemRepository
         {
             get
@@ -84,6 +98,18 @@ namespace Groger.DAL
                     this.shoppingItemRepository = new GenericRepository<ShoppingItem>(context);
                 }
                 return shoppingItemRepository;
+            }
+        }
+
+        public IGenericRepository<ShoppingModelItem> ShoppingModelItemRepository
+        {
+            get
+            {
+                if (this.shoppingModelItemRepository == null)
+                {
+                    this.shoppingModelItemRepository = new GenericRepository<ShoppingModelItem>(context);
+                }
+                return shoppingModelItemRepository;
             }
         }
 

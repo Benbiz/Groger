@@ -1,10 +1,4 @@
-﻿using Groger.Entity;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Groger.DTO
 {
@@ -15,7 +9,5 @@ namespace Groger.DTO
         [Required]
         [Range(0, uint.MaxValue)]
         public int Quantity { get; set; }
-        [Required]
-        public GroceryUnits Unit { get; set; }
     }
 }

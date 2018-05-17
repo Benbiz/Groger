@@ -61,6 +61,8 @@
     <Compile Include="Shopping\ShoppingItem.cs" />
     <Compile Include="Shopping\ShoppingList.cs" />
     <Compile Include="GroceryUnits.cs" />
+    <Compile Include="Shopping\ShoppingModelList.cs" />
+    <Compile Include="Shopping\ShoppingModelItem.cs" />
     <Compile Include="User.cs" />
     <Compile Include="ApplicationUser.cs" />
   </ItemGroup>

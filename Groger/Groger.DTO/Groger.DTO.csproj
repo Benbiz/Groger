@@ -71,10 +71,15 @@
     <Compile Include="Grocery\GrocerySearchResultDTO.cs" />
     <Compile Include="Grocery\SearchGroceryDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShoppingList\GetShoppingListModelDTO.cs" />
     <Compile Include="ShoppingList\GetShoppingListDTO.cs" />
+    <Compile Include="ShoppingList\NewShoppingListModelDTO.cs" />
+    <Compile Include="ShoppingList\ShoppingItem\GetShoppingItemModelDTO.cs" />
     <Compile Include="ShoppingList\ShoppingItem\GetShoppingItemDTO.cs" />
+    <Compile Include="ShoppingList\ShoppingItem\ShoppingItemModelDTO.cs" />
     <Compile Include="ShoppingList\ShoppingItem\ShoppingItemDTO.cs" />
     <Compile Include="ShoppingList\NewShoppingListDTO.cs" />
+    <Compile Include="ShoppingList\ShoppingListModelDTO.cs" />
     <Compile Include="ShoppingList\ShoppingListDTO.cs" />
     <Compile Include="UserDTO.cs" />
   </ItemGroup>

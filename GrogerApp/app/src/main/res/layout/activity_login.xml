@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" >
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.groger.grogerapp.viewmodel.LoginViewModel"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.groger.grogerapp.LoginActivity">
+
+        <ImageView
+            android:id="@+id/img_groger"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@mipmap/groger_logo"
+            android:layout_centerInParent="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="20sp"/>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            app:visibleGone="@{viewModel.isLoading}"/>
+
+        <RelativeLayout
+            android:id="@+id/rl_signin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            app:visibleGone="@{!viewModel.isLoading}">
+            <RelativeLayout
+                android:id="@+id/rl_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp">
+                <TextView
+                    android:id="@+id/lbl_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Username"
+                    android:labelFor="@+id/edt_username"
+                    android:textColor="@color/colorPrimaryText"/>
+                <EditText
+                    android:id="@+id/edt_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Username"
+                    android:text="@={viewModel.credential.username}"
+                    android:layout_below="@+id/lbl_username"/>
+                <TextView
+                    android:id="@+id/lbl_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Password"
+                    android:layout_below="@+id/edt_username"
+                    android:textColor="@color/colorPrimaryText"/>
+                <EditText
+                    android:id="@+id/edt_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:hint="Password"
+                    android:text="@={viewModel.credential.password}"
+                    android:layout_below="@+id/lbl_password"/>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_input">
+                <Button
+                    android:id="@+id/btn_id"
+                    style="@style/Base.Widget.AppCompat.Button.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sign in"
+                    android:layout_centerInParent="true"
+                    android:onClick="@{() -> viewModel.signIn()}"
+                    android:enabled="@{viewModel.isCredentialValid}"/>
+            </RelativeLayout>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            app:visibleGone="@{!viewModel.isLoading}">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Register now !"
+                android:layout_alignParentStart="true"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Forgot password ?"
+                android:layout_alignParentEnd="true"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
+</layout>

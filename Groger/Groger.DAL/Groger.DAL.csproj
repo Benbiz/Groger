@@ -106,6 +106,10 @@
     <Compile Include="Migrations\201802031050473_UIntNotSupportedByEF.Designer.cs">
       <DependentUpon>201802031050473_UIntNotSupportedByEF.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804071332474_GroceryInShoppingItem.cs" />
+    <Compile Include="Migrations\201804071332474_GroceryInShoppingItem.Designer.cs">
+      <DependentUpon>201804071332474_GroceryInShoppingItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Providers\SimpleAuthorizationServerProvider.cs" />
     <Compile Include="Repositories\AuthRepository.cs" />
@@ -153,6 +157,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802031050473_UIntNotSupportedByEF.resx">
       <DependentUpon>201802031050473_UIntNotSupportedByEF.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804071332474_GroceryInShoppingItem.resx">
+      <DependentUpon>201804071332474_GroceryInShoppingItem.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

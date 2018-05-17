@@ -28,6 +28,10 @@ namespace Groger.DAL
 
         public DbSet<ShoppingList> ShoppingLists { get; set; }
 
+        public DbSet<ShoppingModelList> ShoppingModelLists { get; set; }
+
         public DbSet<ShoppingItem> ShoppingItems { get; set; }
+
+        public DbSet<ShoppingModelItem> ShoppingModelItems { get; set; }
     }
 }

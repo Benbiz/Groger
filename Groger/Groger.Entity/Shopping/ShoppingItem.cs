@@ -7,9 +7,10 @@ namespace Groger.Entity.Shopping
     {
         public int Id { get; set; }
         [Required]
-        public int ClusterGroceryId { get; set; }
+        public int GroceryId { get; set; }
         [Required]
-        public virtual ClusterGrocery Grocery { get; set; }
+        public virtual Grocery Grocery { get; set; }
+        public string Comment { get; set; }
         [Required]
         [Range(0, int.MaxValue)]
         public int ToBuy { get; set; }

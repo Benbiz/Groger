@@ -36,7 +36,12 @@ namespace Groger.DTO
                 cfg.CreateMap<Entity.Shopping.ShoppingList, GetShoppingListDTO>()
                     .ForMember(DTO => DTO.Products, conf => conf.MapFrom(ol => ol.ShoppingItems.Count()));
 
+                cfg.CreateMap<Entity.Shopping.ShoppingModelList, GetShoppingListModelDTO>()
+                    .ForMember(DTO => DTO.Products, conf => conf.MapFrom(ol => ol.ShoppingModelItems.Count()));
+
                 cfg.CreateMap<Entity.Shopping.ShoppingItem, GetShoppingItemDTO>();
+
+                cfg.CreateMap<Entity.Shopping.ShoppingModelItem, GetShoppingItemModelDTO>();
             });
         }
     }

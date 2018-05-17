@@ -5,8 +5,6 @@ using Groger.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 
@@ -102,7 +100,7 @@ namespace Groger.WebApi.Controllers.ShoppingList
                 return BadRequest("Unable to modify a validated shopping list");
             }
 
-            var grocery = cluster.ClusterGroceries.FirstOrDefault(x => x.Grocery.Id == item.GroceryId);
+            Grocery grocery = UnitOfWork.GroceryRepository.GetByID(item.GroceryId);
             if (grocery == null)
             {
                 return BadRequest("Grocery not found");
@@ -116,7 +114,7 @@ namespace Groger.WebApi.Controllers.ShoppingList
                 Validated = false,
                 ValidatedDate = null,
                 Grocery = grocery,
-                ClusterGroceryId = grocery.GroceryId
+                GroceryId = grocery.Id
             };
             entity.LastUpdate = entity.AddDate;
 
@@ -156,7 +154,7 @@ namespace Groger.WebApi.Controllers.ShoppingList
                 return BadRequest("Unable to modify a validated shopping list");
             }
 
-            var grocery = cluster.ClusterGroceries.FirstOrDefault(x => x.Grocery.Id == item.GroceryId);
+            Grocery grocery = UnitOfWork.GroceryRepository.GetByID(item.GroceryId);
             if (grocery == null)
             {
                 return BadRequest("Grocery not found");
@@ -166,8 +164,8 @@ namespace Groger.WebApi.Controllers.ShoppingList
             {
                 return NotFound();
             }
-            // Unable to modify a validated shopping list, except if wanted to unvalidate it
-            else if (entity.Validated == true && item.Validated == true)
+            // Unable to modify a validated shopping list
+            else if (entity.Validated == true)
             {
                 return BadRequest("Unable to modify a validated shopping item");
             }
@@ -176,12 +174,10 @@ namespace Groger.WebApi.Controllers.ShoppingList
             entity.ToBuy = item.ToBuy;
             if (entity.Validated == false && item.Validated == true)
                 entity.ValidatedDate = DateTime.Now;
-            else if (item.Validated == false && entity.ValidatedDate != null)
-                entity.ValidatedDate = null;
             entity.Validated = item.Validated;
             entity.LastUpdate = DateTime.Now;
             entity.Grocery = grocery;
-            entity.ClusterGroceryId = grocery.GroceryId;
+            entity.GroceryId = grocery.Id;
 
             UnitOfWork.ShoppingItemRepository.Update(entity);
             UnitOfWork.Save();

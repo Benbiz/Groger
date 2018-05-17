@@ -2,6 +2,7 @@
 using Groger.DAL;
 using Groger.DTO.ShoppingList;
 using Groger.Entity;
+using Groger.WebApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace Groger.WebApi.Controllers.ShoppingList
         [HttpGet]
         [Route("")]
         [ResponseType(typeof(GetShoppingListDTO))]
-        public IHttpActionResult GetShoppingLists(int clusterId)
+        public IHttpActionResult GetShoppingLists(int clusterId, [FromUri] RestQueryParams<GetShoppingListDTO> param = null)
         {
             Cluster entity = UnitOfWork.ClusterRepository.GetByID(clusterId);
 
@@ -35,6 +36,12 @@ namespace Groger.WebApi.Controllers.ShoppingList
                 return NotFound();
             else if (entity.ApplicationUsers.FirstOrDefault(x => x.Id == UserRecord.Id) == null)
                 return Unauthorized();
+
+            IEnumerable<Entity.Shopping.ShoppingList> groceries = entity.ShoppingLists;
+            if (param != null)
+            {
+                groceries = entity.ShoppingLists.Where(x => param.IsOk(Mapper.Map<GetShoppingListDTO>(x)));
+            }
 
             return Ok(Mapper.Map<IEnumerable<GetShoppingListDTO>>(entity.ShoppingLists));
         }
@@ -167,11 +174,29 @@ namespace Groger.WebApi.Controllers.ShoppingList
         {
             foreach(Entity.Shopping.ShoppingItem item in list.ShoppingItems)
             {
-                var grocery = cluster.ClusterGroceries.FirstOrDefault(x => x.Grocery.Id == item.ClusterGroceryId);
-                if (grocery != null)
+                // On verifie si le produit est dans le cluster
+                var clusterGrocery = cluster.ClusterGroceries.FirstOrDefault(x => x.Grocery.Id == item.GroceryId);
+                if (clusterGrocery != null)
                 {
-                    grocery.Quantity += item.Brought;
-                    UnitOfWork.ClusterGroceriesRepository.Update(grocery);
+                    clusterGrocery.Quantity += item.Brought;
+                    UnitOfWork.ClusterGroceriesRepository.Update(clusterGrocery);
+                }
+                // Sinon on l'ajoute
+                else
+                {
+                    var grocery = UnitOfWork.GroceryRepository.GetByID(item.GroceryId);
+                    if (grocery != null)
+                    {
+                        clusterGrocery = new ClusterGrocery()
+                        {
+                            Cluster = cluster,
+                            Grocery = grocery,
+                            Quantity = item.Brought,
+                            UpdateTime = DateTime.Now
+                        };
+                        UnitOfWork.ClusterGroceriesRepository.Insert(clusterGrocery);
+                        UnitOfWork.Save();
+                    }
                 }
 
             }

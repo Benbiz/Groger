@@ -2,8 +2,8 @@ using Swashbuckle.Application;
 using Swashbuckle.Swagger;
 using System;
 using System.Collections.Generic;
-using System.Web.Http;
 using System.Net.Http;
+using System.Web.Http;
 using System.Web.Http.Description;
 
 namespace Groger.WebApi

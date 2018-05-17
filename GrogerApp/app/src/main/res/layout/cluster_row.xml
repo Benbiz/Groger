@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="cluster"
+            type="com.groger.grogerapp.service.model.Cluster"/>
+    </data>
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="5dp"
+        android:onClick="@{}">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_clusterName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{cluster.name}"
+                android:textColor="@color/colorPrimaryText"
+                android:textStyle="bold"
+                tools:text="Cluster name"/>
+            <TextView
+                android:id="@+id/tv_clusterDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_clusterName"
+                android:text="@{cluster.description}"
+                android:textSize="12dp"
+                android:textColor="@color/colorSecondaryText"
+                tools:text="Cluster description"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:textColor="@color/colorPrimaryText"
+                android:textStyle="bold"
+                android:text="@{String.valueOf(cluster.groceriesQuantity) + &quot; records&quot;}"
+                tools:text="12"/>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</layout>
