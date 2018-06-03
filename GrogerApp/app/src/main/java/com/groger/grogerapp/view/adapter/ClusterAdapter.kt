@@ -17,8 +17,8 @@ class ClusterAdapter(private var clusters: List<Cluster>, private var listener: 
     override fun getItemCount(): Int = clusters.size
 
     interface OnItemClickListener{
-        fun onItemClick(position: Int)
-        fun onItemLongClick(position: Int)
+        fun onItemClick(cluster : Cluster)
+        fun onItemLongClick(cluster: Cluster)
     }
 
     override fun onBindViewHolder(holder: ClusterViewHolder, position: Int) {
@@ -36,9 +36,9 @@ class ClusterAdapter(private var clusters: List<Cluster>, private var listener: 
         {
             binding.cluster = cluster
             if (listener != null) {
-                binding.root.setOnClickListener { listener.onItemClick(layoutPosition) }
+                binding.root.setOnClickListener { listener.onItemClick(cluster) }
                 binding.root.setOnLongClickListener {
-                    listener.onItemLongClick(layoutPosition)
+                    listener.onItemLongClick(cluster)
                     true
                 }
             }

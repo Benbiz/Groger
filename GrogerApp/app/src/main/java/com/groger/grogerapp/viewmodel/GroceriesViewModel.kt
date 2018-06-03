@@ -4,23 +4,23 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableField
 import com.groger.grogerapp.service.model.Cluster
-import com.groger.grogerapp.service.model.NewCluster
-import com.groger.grogerapp.service.repository.ClusterRepositoryProvider
+import com.groger.grogerapp.service.model.Grocery
+import com.groger.grogerapp.service.repository.GroceryRepositoryProvider
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.schedulers.Schedulers
 
-class ClusterViewModel(private val token : String) : ViewModel() {
+class GroceriesViewModel(private val token : String, private val cluster : Cluster) : ViewModel() {
 
     val isLoading = ObservableField<Boolean>(false)
-    val clusters = MutableLiveData<List<Cluster>>()
+    val groceries = MutableLiveData<List<Grocery>>()
     private val disposables = CompositeDisposable()
 
-    fun removeCluster(cluster: Cluster)
+    /*fun removeGrocery(grocery: Grocery)
     {
         isLoading.set(true)
-        disposables.add(ClusterRepositoryProvider.provideClusterRepository().removeCluster(token, cluster).subscribeOn(Schedulers.newThread())
+        disposables.add(GroceryRepositoryProvider.provideGroceryRepository().removeGrocery(token, cluster).subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableObserver<Unit>() {
                     override fun onComplete() {
@@ -39,9 +39,9 @@ class ClusterViewModel(private val token : String) : ViewModel() {
                     }
 
                 }))
-    }
+    }*/
 
-    fun addCluster(cluster: NewCluster)
+    /*fun addCluster(cluster: NewCluster)
     {
         isLoading.set(true)
         disposables.add(ClusterRepositoryProvider.provideClusterRepository().addCluster(token, cluster).subscribeOn(Schedulers.newThread())
@@ -63,20 +63,20 @@ class ClusterViewModel(private val token : String) : ViewModel() {
                     }
 
                 }))
-    }
+    }*/
 
     fun loadClusters()
     {
         isLoading.set(true)
-        disposables.add(ClusterRepositoryProvider.provideClusterRepository().getClusters(token).subscribeOn(Schedulers.newThread())
+        disposables.add(GroceryRepositoryProvider.provideGroceryRepository().getClusterGroceries(token, cluster).subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableObserver<List<Cluster>>() {
+                .subscribeWith(object : DisposableObserver<List<Grocery>>() {
                     override fun onComplete() {
                         isLoading.set(false)
                     }
 
-                    override fun onNext(t: List<Cluster>) {
-                        clusters.value = t
+                    override fun onNext(t: List<Grocery>) {
+                        groceries.value = t
                     }
 
 
@@ -84,7 +84,6 @@ class ClusterViewModel(private val token : String) : ViewModel() {
                         isLoading.set(false)
                         val reason = e.message
                     }
-
                 }))
     }
 }

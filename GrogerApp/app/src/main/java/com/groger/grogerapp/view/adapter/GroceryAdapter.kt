@@ -18,8 +18,8 @@ class GroceryAdapter(private var groceries: List<Grocery>, private var listener:
     override fun getItemCount(): Int = groceries.size
 
     interface OnItemClickListener{
-        fun onItemClick(position: Int)
-        fun onItemLongClick(position: Int)
+        fun onItemClick(grocery: Grocery)
+        fun onItemLongClick(grocery: Grocery)
     }
 
     override fun onBindViewHolder(holder: GroceryViewHolder, position: Int) {
@@ -41,9 +41,9 @@ class GroceryAdapter(private var groceries: List<Grocery>, private var listener:
                         .load(grocery.picture)
                         .into(binding.imgGrocery)
             if (listener != null) {
-                binding.root.setOnClickListener { listener.onItemClick(layoutPosition) }
+                binding.root.setOnClickListener { listener.onItemClick(grocery) }
                 binding.root.setOnLongClickListener {
-                    listener.onItemLongClick(layoutPosition)
+                    listener.onItemLongClick(grocery)
                     true
                 }
             }

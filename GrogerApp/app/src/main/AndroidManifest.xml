@@ -14,15 +14,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LoginActivity"
-            android:screenOrientation="portrait">
+            android:name=".view.activity.LoginActivity"
+            android:screenOrientation="portrait"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ClusterActivity"></activity>
+        <activity android:name=".view.activity.ClusterActivity" />
+        <activity android:name=".view.activity.MainActivity"/>
     </application>
 
 </manifest>

@@ -12,7 +12,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.groger.grogerapp.LoginActivity">
+        tools:context="com.groger.grogerapp.view.activity.LoginActivity">
 
         <ImageView
             android:id="@+id/img_groger"

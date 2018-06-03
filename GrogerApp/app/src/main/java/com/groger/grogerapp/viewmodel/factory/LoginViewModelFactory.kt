@@ -1,8 +1,9 @@
-package com.groger.grogerapp.viewmodel
+package com.groger.grogerapp.viewmodel.factory
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.groger.grogerapp.view.callback.SigninResultCallback
+import com.groger.grogerapp.viewmodel.LoginViewModel
 
 class LoginViewModelFactory(private val signinResultCallback: SigninResultCallback) : ViewModelProvider.Factory {
 

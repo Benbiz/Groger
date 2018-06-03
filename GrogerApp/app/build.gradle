@@ -25,35 +25,7 @@ android {
 
     dataBinding.enabled = true
 
-    flavorDimensions "default"
 
-    productFlavors {
-
-        finalProduction {
-            dimension "default"
-            applicationId "com.groger.grogerapp"
-            resValue "string", "app_name", "Groger"
-        }
-
-        demoProduction {
-            dimension "default"
-            applicationId "com.groger.grogerapp.demoproduction"
-            resValue "string", "app_name", "Groger Demo P"
-        }
-
-        demoTesting {
-            dimension "default"
-            applicationId "com.groger.grogerapp.demotesting"
-            resValue "string", "app_name", "Groger Demo T"
-        }
-
-
-        mock {
-            dimension "default"
-            applicationId "com.groger.grogerapp.mock"
-            resValue "string", "app_name", "Modern App Mock"
-        }
-    }
 }
 
 dependencies {
@@ -62,6 +34,7 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     implementation 'com.android.support:design:27.1.1'
+    implementation 'com.android.support:support-v4:27.1.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

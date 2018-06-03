@@ -63,4 +63,26 @@ class ClusterRepository(private val apiService : GrogerService)
             }
         })
     }
+
+    fun removeCluster(token : String, cluster: Cluster) : Observable<Unit>
+    {
+        return Observable.create({
+            val response = apiService.removeCluster(token, cluster.id).execute()
+            if (response.isSuccessful)
+            {
+                it.onComplete()
+            }
+            else
+            {
+                it.onError(Throwable (when (response?.code())
+                {
+                    404 -> "Service unreachable"
+                    401 -> "Not authenticated"
+                    500 -> "Service error"
+                    else -> "Unknown error"
+                }))
+                it.onComplete()
+            }
+        })
+    }
 }

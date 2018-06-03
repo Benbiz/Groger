@@ -1,6 +1,7 @@
 package com.groger.grogerapp.service.repository
 
 import com.groger.grogerapp.service.model.Cluster
+import com.groger.grogerapp.service.model.Grocery
 import com.groger.grogerapp.service.model.NewCluster
 import com.groger.grogerapp.service.model.UserToken
 import retrofit2.Call
@@ -23,10 +24,10 @@ interface GrogerService {
     fun addCluster(@Header("Authorization") token : String, @Body cluster: NewCluster) : Call<Cluster>
 
     @DELETE("clusters/{id}")
-    fun removeCluster(@Header("Authorization") token : String, @Path("id") clusterId: Int) : Call<Cluster>
+    fun removeCluster(@Header("Authorization") token : String, @Path("id") clusterId: Int) : Call<Unit>
 
-    /*@GET("clusters/{clusterId}/groceries")
-    fun getClusterGroceries(@Header("Authorization") token : String, @Path("clusterId") clusterId: Int) : Observable<List<Grocery>>*/
+    @GET("clusters/{id}/groceries")
+    fun getClusterGroceries(@Header("Authorization") token : String, @Path("id") clusterId: Int) : Call<List<Grocery>>
 
 
     companion object Factory {
