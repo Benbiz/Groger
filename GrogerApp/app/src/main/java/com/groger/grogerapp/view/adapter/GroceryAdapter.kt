@@ -6,8 +6,9 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.groger.grogerapp.databinding.GroceryRowBinding
 import com.groger.grogerapp.service.model.Grocery
+import com.groger.grogerapp.view.listener.groceries.GroceriesInteractionListener
 
-class GroceryAdapter(private var groceries: List<Grocery>, private var listener: OnItemClickListener) : RecyclerView.Adapter<GroceryAdapter.GroceryViewHolder>() {
+class GroceryAdapter(private var groceries: List<Grocery>, private var listener: GroceriesInteractionListener) : RecyclerView.Adapter<GroceryAdapter.GroceryViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroceryViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -16,11 +17,6 @@ class GroceryAdapter(private var groceries: List<Grocery>, private var listener:
     }
 
     override fun getItemCount(): Int = groceries.size
-
-    interface OnItemClickListener{
-        fun onItemClick(grocery: Grocery)
-        fun onItemLongClick(grocery: Grocery)
-    }
 
     override fun onBindViewHolder(holder: GroceryViewHolder, position: Int) {
         holder.bind(groceries[position], listener)
@@ -33,7 +29,7 @@ class GroceryAdapter(private var groceries: List<Grocery>, private var listener:
 
     class GroceryViewHolder(private val binding: GroceryRowBinding) : RecyclerView.ViewHolder(binding.root)
     {
-        fun bind(grocery : Grocery, listener: OnItemClickListener?)
+        fun bind(grocery : Grocery, listener: GroceriesInteractionListener?)
         {
             binding.grocery = grocery
             if (grocery.picture != null)
@@ -41,9 +37,9 @@ class GroceryAdapter(private var groceries: List<Grocery>, private var listener:
                         .load(grocery.picture)
                         .into(binding.imgGrocery)
             if (listener != null) {
-                binding.root.setOnClickListener { listener.onItemClick(grocery) }
+                binding.root.setOnClickListener { listener.onGrocerySelected(grocery) }
                 binding.root.setOnLongClickListener {
-                    listener.onItemLongClick(grocery)
+                    listener.onRemoveGrocery(grocery)
                     true
                 }
             }

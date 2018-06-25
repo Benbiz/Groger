@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_clusterName"
                 android:text="@{cluster.description}"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 android:textColor="@color/colorSecondaryText"
                 tools:text="Cluster description"/>
 

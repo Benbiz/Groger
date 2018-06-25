@@ -4,19 +4,23 @@ import android.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.groger.grogerapp.view.fragment.HomeFragment
 import com.groger.grogerapp.R
 import com.groger.grogerapp.R.id.*
 import com.groger.grogerapp.service.model.Cluster
-import com.groger.grogerapp.view.fragment.GroceriesFragment
-import com.groger.grogerapp.view.fragment.NotificationFragment
-import com.groger.grogerapp.view.fragment.ShoppinglistFragment
+import com.groger.grogerapp.service.model.Grocery
+import com.groger.grogerapp.service.model.NewGrocery
+import com.groger.grogerapp.service.model.UpdateGrocery
+import com.groger.grogerapp.view.fragment.*
+import com.groger.grogerapp.view.listener.groceries.GroceryUpdateListener
+import com.groger.grogerapp.view.listener.groceries.NewGroceryListener
+import com.groger.grogerapp.view.ui.AddGroceryDialog
 import com.groger.grogerapp.view.ui.setForceShiftingMode
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionListener, GroceriesFragment.OnFragmentInteractionListener {
-    override fun onFragmentInteraction(uri: Uri) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+class MainActivity : AppCompatActivity(), GroceryUpdateListener {
+
+    override fun onUpdateGrocery(grocery: Grocery) {
+        supportFragmentManager.popBackStackImmediate()
     }
 
     lateinit var token: String

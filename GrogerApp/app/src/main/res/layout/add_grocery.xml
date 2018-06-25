@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="grocery"
+            type="com.groger.grogerapp.service.model.NewGrocery"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/name"
+            android:textColor="@color/colorPrimaryText"/>
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@={grocery.name}"
+            android:layout_below="@+id/tv_name"
+            android:inputType="text"
+            android:hint="@string/name"/>
+
+        <TextView
+            android:id="@+id/tv_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/description"
+            android:layout_below="@+id/et_name"
+            android:textColor="@color/colorPrimaryText"/>
+        <EditText
+            android:id="@+id/et_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_description"
+            android:text="@={grocery.description}"
+            android:inputType="text"
+            android:hint="@string/description"/>
+
+        <TextView
+            android:id="@+id/tv_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/imageUrl"
+            android:textColor="@color/colorPrimaryText"
+            android:layout_below="@+id/et_description"/>
+        <EditText
+            android:id="@+id/et_img"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_img"
+            android:text="@={grocery.picture}"
+            android:inputType="textUri"
+            android:hint="@string/imageUrl"/>
+
+        <TextView
+            android:id="@+id/tv_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/quantity"
+            android:textColor="@color/colorPrimaryText"
+            android:layout_below="@+id/et_img"/>
+        <EditText
+            android:id="@+id/et_quantity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_quantity"
+            android:text="@={`` + grocery.quantity}"
+            android:inputType="number"
+            android:hint="@string/quantity"/>
+
+
+    </RelativeLayout>
+</layout>

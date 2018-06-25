@@ -18,7 +18,7 @@ namespace Groger.DTO
 
                 cfg.CreateMap<ClusterGrocery, GetGroceryDTO>()
                     .ForMember(DTO => DTO.Id, conf => conf.MapFrom(ol => ol.Grocery.Id))
-                    .ForMember(DTO => DTO.Name, conf => conf.MapFrom(ol => ol.Grocery.Name))
+                    .ForMember(DTO => DTO.Name, conf => conf.MapFrom(ol => ol.Name))
                     .ForMember(DTO => DTO.Description, conf => conf.MapFrom(ol => ol.Grocery.Description))
                     .ForMember(DTO => DTO.Picture, conf => conf.MapFrom(ol => ol.Grocery.Picture))
                     .ForMember(DTO => DTO.Category, conf => conf.MapFrom(ol => ol.Grocery.Category.Name));

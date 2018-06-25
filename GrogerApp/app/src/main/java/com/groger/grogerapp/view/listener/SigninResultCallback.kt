@@ -1,4 +1,4 @@
-package com.groger.grogerapp.view.callback
+package com.groger.grogerapp.view.listener
 
 import com.groger.grogerapp.service.model.UserToken
 

@@ -30,7 +30,7 @@ namespace Groger.WebApi.Controllers.ShoppingList
 
         [HttpGet]
         [Route("")]
-        [ResponseType(typeof(GetShoppingListDTO))]
+        [ResponseType(typeof(IEnumerable<GetShoppingListModelDTO>))]
         public IHttpActionResult GetShoppingModelLists([FromUri] RestQueryParams<GetShoppingListModelDTO> param = null)
         {
             var lists = Mapper.Map<IEnumerable<GetShoppingListModelDTO>>(UserRecord.ShoppingListModels);
@@ -40,7 +40,7 @@ namespace Groger.WebApi.Controllers.ShoppingList
 
         [HttpGet]
         [Route("{id:int}", Name = "GetShoppingListModel")]
-        [ResponseType(typeof(GetShoppingListDTO))]
+        [ResponseType(typeof(GetShoppingListModelDTO))]
         public IHttpActionResult GetShoppingModelList(int id)
         {
             ShoppingModelList entity = UserRecord.ShoppingListModels.FirstOrDefault(x => x.Id == id);
@@ -53,7 +53,7 @@ namespace Groger.WebApi.Controllers.ShoppingList
 
         [HttpPost]
         [Route("")]
-        [ResponseType(typeof(GetShoppingListDTO))]
+        [ResponseType(typeof(GetShoppingListModelDTO))]
         public IHttpActionResult PostShoppingList(NewShoppingListModelDTO list)
         {
             if (!ModelState.IsValid)
@@ -76,7 +76,7 @@ namespace Groger.WebApi.Controllers.ShoppingList
 
         [HttpPut]
         [Route("{id:int}")]
-        [ResponseType(typeof(GetShoppingListDTO))]
+        [ResponseType(typeof(void))]
         public IHttpActionResult PutShoppingList(int id, ShoppingListModelDTO list)
         {
             if (!ModelState.IsValid)
@@ -106,7 +106,7 @@ namespace Groger.WebApi.Controllers.ShoppingList
 
         [HttpDelete]
         [Route("{id:int}")]
-        [ResponseType(typeof(GetShoppingListDTO))]
+        [ResponseType(typeof(GetShoppingListModelDTO))]
         public IHttpActionResult DeleteShoppingList(int id)
         {
             ShoppingModelList entity = UserRecord.ShoppingListModels.FirstOrDefault(x => x.Id == id);

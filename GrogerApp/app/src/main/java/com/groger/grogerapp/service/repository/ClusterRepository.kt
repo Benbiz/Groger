@@ -1,9 +1,9 @@
 package com.groger.grogerapp.service.repository
 
+import com.groger.grogerapp.service.GrogerService
 import com.groger.grogerapp.service.model.Cluster
 import com.groger.grogerapp.service.model.NewCluster
 import io.reactivex.Observable
-import retrofit2.Call
 
 object ClusterRepositoryProvider {
     fun provideClusterRepository() : ClusterRepository

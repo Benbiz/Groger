@@ -99,6 +99,7 @@ namespace Groger.WebApi.Controllers
 
 
             entity.Name = grocery.Name;
+            entity.Grocery = entity.Grocery;
             entity.Quantity = grocery.Quantity;
             entity.UpdateTime = DateTime.Now;
 
@@ -155,6 +156,7 @@ namespace Groger.WebApi.Controllers
                 Cluster = cluster,
                 Grocery = entity,
                 Quantity = grocery.Quantity,
+                Name = entity.Name,
                 UpdateTime = DateTime.Now
             };
 

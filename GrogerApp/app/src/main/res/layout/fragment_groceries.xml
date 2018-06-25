@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:textColor="@color/colorPrimaryText"
-            android:text="Groceries"
+            android:text="@string/groceriesTitle"
             android:textAlignment="center"/>
 
         <android.support.v7.widget.RecyclerView

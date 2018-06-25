@@ -2,12 +2,11 @@ package com.groger.grogerapp.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import android.databinding.BaseObservable
 import android.databinding.ObservableField
 import com.groger.grogerapp.service.model.UserCredential
 import com.groger.grogerapp.service.model.UserToken
 import com.groger.grogerapp.service.repository.UserRepositoryProvider
-import com.groger.grogerapp.view.callback.SigninResultCallback
+import com.groger.grogerapp.view.listener.SigninResultCallback
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableObserver

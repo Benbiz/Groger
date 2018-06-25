@@ -25,5 +25,10 @@ namespace Groger.DTO.ShoppingList
         /// Number of products in the shopping list
         /// </summary>
         public int Products { get; set; }
+
+        /// <summary>
+        /// If the shopping list is validated
+        /// </summary>
+        public bool Validated { get; set; }
     }
 }

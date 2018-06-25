@@ -1,9 +1,6 @@
-package com.groger.grogerapp.service.repository
+package com.groger.grogerapp.service
 
-import com.groger.grogerapp.service.model.Cluster
-import com.groger.grogerapp.service.model.Grocery
-import com.groger.grogerapp.service.model.NewCluster
-import com.groger.grogerapp.service.model.UserToken
+import com.groger.grogerapp.service.model.*
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -28,6 +25,32 @@ interface GrogerService {
 
     @GET("clusters/{id}/groceries")
     fun getClusterGroceries(@Header("Authorization") token : String, @Path("id") clusterId: Int) : Call<List<Grocery>>
+
+    @PUT("clusters/{id}/groceries/{groceryId}")
+    fun updateClusterGroceries(@Header("Authorization") token : String,
+                               @Path("id") clusterId: Int,
+                               @Path("groceryId") groceryId: Int,
+                               @Body grocery: UpdateGrocery) : Call<Unit>
+
+    @GET("groceries")
+    fun getGroceries(@Header("Authorization") token : String,
+                     @Query("query.name") name : String,
+                     @Query("query.description") description : String,
+                     @Query("query.categorie") category : String) : Call<List<Grocery>>
+
+    @POST("clusters/{id}/groceries")
+    fun createGrocery(@Header("Authorization") token : String, @Path("id") clusterId: Int, @Body grocery: NewGrocery) : Call<Grocery>
+
+    @POST("clusters/{id}/groceries/{groceryId}")
+    fun addGrocery(@Header("Authorization") token : String,
+                   @Path("id") clusterId: Int,
+                   @Path("groceryId") groceryId: Int,
+                   @Body grocery: AddGrocery) : Call<Grocery>
+
+    @DELETE("clusters/{id}/groceries/{groceryId}")
+    fun removeGrocery(@Header("Authorization") token : String,
+                      @Path("id") clusterId: Int,
+                      @Path("groceryId") groceryId: Int) : Call<Unit>
 
 
     companion object Factory {

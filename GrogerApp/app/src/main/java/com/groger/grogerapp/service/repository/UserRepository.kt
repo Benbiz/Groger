@@ -1,5 +1,6 @@
 package com.groger.grogerapp.service.repository
 
+import com.groger.grogerapp.service.GrogerService
 import com.groger.grogerapp.service.model.UserCredential
 import com.groger.grogerapp.service.model.UserToken
 import io.reactivex.Observable

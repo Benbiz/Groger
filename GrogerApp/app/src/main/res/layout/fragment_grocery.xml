@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".view.fragment.GroceryFragment">
+    
+    <data>
+        <variable
+            name="grocery"
+            type="com.groger.grogerapp.service.model.Grocery"/>
+        <variable
+            name="updateGrocery"
+            type="com.groger.grogerapp.service.model.UpdateGrocery"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp">
+        <ImageView
+            android:id="@+id/img_grocery"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            tools:src="@mipmap/groger_logo"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp">
+            <TextView
+                android:id="@+id/tv_groceryName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="20sp"
+                android:text="@{grocery.name}"
+                android:textAlignment="center"
+                tools:text="Mon poivre"/>
+            <TextView
+                android:id="@+id/tv_groceryrDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_groceryName"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="16sp"
+                android:textAlignment="center"
+                android:text="@{grocery.description}"
+                tools:text="Du poivre 5 baies"/>
+            <RelativeLayout
+                android:id="@+id/rl_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/tv_groceryrDescription"
+                android:layout_marginTop="50dp"
+                android:padding="20dp">
+                <TextView
+                    android:id="@+id/tv_newName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/name"
+                    android:textColor="@color/colorPrimaryText"/>
+                <EditText
+                    android:id="@+id/et_newName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:text="@={updateGrocery.name}"
+                    tools:text="Mon poivre"
+                    android:layout_below="@+id/tv_newName"/>
+                <TextView
+                    android:id="@+id/tv_quantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/et_newName"
+                    android:text="@string/quantity"
+                    android:textColor="@color/colorPrimaryText"/>
+                <EditText
+                    android:id="@+id/et_groceryQuantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:text="@={ `` + updateGrocery.quantity}"
+                    tools:text="12"
+                    android:layout_below="@+id/tv_quantity"/>
+            </RelativeLayout>
+            <Button
+                android:id="@+id/btn_apply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Base.Widget.AppCompat.Button.Colored"
+                android:text="@string/applyChangesButton"
+                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
+    </LinearLayout>
+</layout>

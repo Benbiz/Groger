@@ -87,4 +87,9 @@ class ClusterViewModel(private val token : String) : ViewModel() {
 
                 }))
     }
+
+    override fun onCleared() {
+        disposables.dispose()
+        super.onCleared()
+    }
 }

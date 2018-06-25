@@ -26,7 +26,7 @@ namespace Groger.WebApi.Controllers.ShoppingList
 
         [HttpGet]
         [Route("")]
-        [ResponseType(typeof(GetShoppingItemDTO))]
+        [ResponseType(typeof(IEnumerable<GetShoppingItemDTO>))]
         public IHttpActionResult GetShoppingItems(int clusterId, int listId)
         {
             Cluster entity = UnitOfWork.ClusterRepository.GetByID(clusterId);
@@ -109,8 +109,10 @@ namespace Groger.WebApi.Controllers.ShoppingList
             Entity.Shopping.ShoppingItem entity = new Entity.Shopping.ShoppingItem()
             {
                 AddDate = DateTime.Now,
+                LastUpdate = DateTime.Now,
                 Brought = item.Brought,
                 ToBuy = item.ToBuy,
+                Comment = item.Comment,
                 Validated = false,
                 ValidatedDate = null,
                 Grocery = grocery,
@@ -188,7 +190,7 @@ namespace Groger.WebApi.Controllers.ShoppingList
         [HttpDelete]
         [Route("{id:int}")]
         [ResponseType(typeof(GetShoppingItemDTO))]
-        public IHttpActionResult DeleteShoppingItem(int clusterId, int id)
+        public IHttpActionResult DeleteShoppingItem(int clusterId, int listId, int id)
         {
             Cluster cluster = UnitOfWork.ClusterRepository.GetByID(clusterId);
 
@@ -197,7 +199,7 @@ namespace Groger.WebApi.Controllers.ShoppingList
             else if (cluster.ApplicationUsers.FirstOrDefault(x => x.Id == UserRecord.Id) == null)
                 return Unauthorized();
 
-            var list = cluster.ShoppingLists.FirstOrDefault(x => x.Id == id);
+            var list = cluster.ShoppingLists.FirstOrDefault(x => x.Id == listId);
             if (list == null)
             {
                 return NotFound();

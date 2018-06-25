@@ -1,71 +1,59 @@
 package com.groger.grogerapp.view.fragment
 
-import android.app.FragmentTransaction
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.SearchView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.groger.grogerapp.R
-import com.groger.grogerapp.databinding.FragmentGroceriesBinding
+import com.groger.grogerapp.databinding.FragmentAddGroceryBinding
+import com.groger.grogerapp.service.model.AddGrocery
 import com.groger.grogerapp.service.model.Cluster
 import com.groger.grogerapp.service.model.Grocery
+import com.groger.grogerapp.service.model.NewGrocery
 import com.groger.grogerapp.view.adapter.GroceryAdapter
+import com.groger.grogerapp.view.listener.groceries.AddGroceryListener
 import com.groger.grogerapp.view.listener.groceries.GroceriesInteractionListener
+import com.groger.grogerapp.view.listener.groceries.NewGroceryListener
+import com.groger.grogerapp.view.ui.AddExistingGroceryDialog
+import com.groger.grogerapp.view.ui.AddGroceryDialog
 import com.groger.grogerapp.viewmodel.GroceriesViewModel
 import com.groger.grogerapp.viewmodel.factory.GroceriesViewModelFactory
 
-
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_TOKEN = "token"
 private const val ARG_CLUSTER = "cluster"
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [GroceriesFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [GroceriesFragment.newInstance] factory method to
- * create an instance of this fragment.
- *
- */
-
-
-class GroceriesFragment : Fragment(), GroceriesInteractionListener {
-
-    lateinit var binding : FragmentGroceriesBinding
-    lateinit var viewModel : GroceriesViewModel
-    private val groceryAdapter = GroceryAdapter(arrayListOf(), this)
-    private var token: String? = null
-    private var cluster: Cluster? = null
-
-    override fun onRemoveGrocery(grocery: Grocery) {
-        viewModel.removeGrocery(grocery)
-        activity?.supportFragmentManager?.popBackStack()
+class AddGroceryFragment : Fragment(), GroceriesInteractionListener, NewGroceryListener {
+    override fun onNewGrocery(grocery: NewGrocery) {
+        viewModel.createGrocery(grocery)
+        fragmentManager?.popBackStack()
     }
+
+    private var token: String? = null
+    lateinit var binding : FragmentAddGroceryBinding
+    lateinit var viewModel : GroceriesViewModel
+    private var cluster : Cluster? = null
+    private val groceryAdapter = GroceryAdapter(arrayListOf(), this)
+
+    override fun onRemoveGrocery(grocery: Grocery) { }
 
     override fun onGrocerySelected(grocery: Grocery) {
-        activity?.supportFragmentManager!!.beginTransaction().apply {
-            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            replace(R.id.main_frame, GroceryFragment.newInstance(token!!, cluster!!, grocery))
-            addToBackStack(null)
-            commit()
-        }
-    }
+        val dialog = AddExistingGroceryDialog()
+        dialog.grocery.name = grocery.name
+        dialog.setAddExistingGroceryListener(object: AddGroceryListener{
+            override fun onAddGrocery(addedGrocery: AddGrocery) {
+                viewModel.addGrocery(grocery.id, addedGrocery)
+                fragmentManager?.popBackStack()
+            }
+        })
+        dialog.show(fragmentManager, "Add existing grocery")
 
-    private fun onButtonAddClick(){
-        activity?.supportFragmentManager!!.beginTransaction().apply {
-            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            replace(R.id.main_frame, AddGroceryFragment.newInstance(token!!, cluster!!))
-            addToBackStack(null)
-            commit()
-        }
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,20 +63,14 @@ class GroceriesFragment : Fragment(), GroceriesInteractionListener {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.loadClusterGroceries()
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater,
-                R.layout.fragment_groceries, container, false)
+                R.layout.fragment_add_grocery, container, false)
 
         val factory = GroceriesViewModelFactory(token!!, cluster!!)
         viewModel = ViewModelProviders.of(this, factory)
                 .get(GroceriesViewModel::class.java)
-        binding.viewModel = viewModel
         binding.executePendingBindings()
 
         binding.rvGroceries.layoutManager = LinearLayoutManager(this.context)
@@ -97,21 +79,36 @@ class GroceriesFragment : Fragment(), GroceriesInteractionListener {
         viewModel.groceries.observe(this, Observer { it?.let {
             groceryAdapter.replaceData(it)
         } })
-        viewModel.loadClusterGroceries()
 
-        binding.btnAdd.setOnClickListener {
-            onButtonAddClick()
+        binding.btnNew.setOnClickListener {
+            val dialog = AddGroceryDialog()
+            dialog.setNewGroceryListener(this)
+            dialog.show(fragmentManager, "Add grocery")
         }
+
+        binding.svGrocery.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (query != null)
+                    viewModel.loadGroceries(query)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText != null)
+                    viewModel.loadGroceries(newText)
+                return true
+            }
+        })
 
         return binding.root
     }
 
     /*override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
+        if (context is OnGroceryAddListener) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+            throw RuntimeException(context.toString() + " must implement OnGroceryAddListener")
         }
     }
 
@@ -125,17 +122,15 @@ class GroceriesFragment : Fragment(), GroceriesInteractionListener {
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
          *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment GroceriesFragment.
+         * @param token token.
+         * @return A new instance of fragment AddGroceryFragment.
          */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(token: String, custer: Cluster) =
-                GroceriesFragment().apply {
+        fun newInstance(token: String, cluster: Cluster) =
+                AddGroceryFragment().apply {
                     arguments = Bundle().apply {
                         putString(ARG_TOKEN, token)
-                        putSerializable(ARG_CLUSTER, custer)
+                        putSerializable(ARG_CLUSTER, cluster)
                     }
                 }
     }

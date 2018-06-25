@@ -54,6 +54,7 @@
                     android:textColor="@color/colorPrimaryText"
                     android:textStyle="bold"
                     android:text="@{String.valueOf(grocery.quantity)}"
+                    visibleGone="@{grocery.quantity != null}"
                     tools:text="15"/>
             </RelativeLayout>
         </LinearLayout>

@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable
-            name="cluster"
-            type="com.groger.grogerapp.service.model.NewCluster"/>
+            name="grocery"
+            type="com.groger.grogerapp.service.model.AddGrocery"/>
     </data>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
             android:id="@+id/tv_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@={cluster.name}"
+            android:text="@={grocery.name}"
             android:hint="@string/name"/>
 
         <EditText
@@ -23,8 +23,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_name"
-            android:text="@={cluster.description}"
-            android:hint="@string/description"/>
+            android:inputType="number"
+            android:text="@={`` + grocery.quantity}"
+            android:hint="@string/quantity"/>
 
     </RelativeLayout>
 </layout>

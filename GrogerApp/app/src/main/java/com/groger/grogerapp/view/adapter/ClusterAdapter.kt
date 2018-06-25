@@ -5,8 +5,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.groger.grogerapp.databinding.ClusterRowBinding
 import com.groger.grogerapp.service.model.Cluster
+import com.groger.grogerapp.view.listener.ClustersListener
 
-class ClusterAdapter(private var clusters: List<Cluster>, private var listener: OnItemClickListener) : RecyclerView.Adapter<ClusterAdapter.ClusterViewHolder>() {
+class ClusterAdapter(private var clusters: List<Cluster>, private var listener: ClustersListener) : RecyclerView.Adapter<ClusterAdapter.ClusterViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClusterViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -15,11 +16,6 @@ class ClusterAdapter(private var clusters: List<Cluster>, private var listener: 
     }
 
     override fun getItemCount(): Int = clusters.size
-
-    interface OnItemClickListener{
-        fun onItemClick(cluster : Cluster)
-        fun onItemLongClick(cluster: Cluster)
-    }
 
     override fun onBindViewHolder(holder: ClusterViewHolder, position: Int) {
         holder.bind(clusters[position], listener)
@@ -32,13 +28,13 @@ class ClusterAdapter(private var clusters: List<Cluster>, private var listener: 
 
     class ClusterViewHolder(private val binding: ClusterRowBinding) : RecyclerView.ViewHolder(binding.root)
     {
-        fun bind(cluster : Cluster, listener: OnItemClickListener?)
+        fun bind(cluster : Cluster, listener: ClustersListener?)
         {
             binding.cluster = cluster
             if (listener != null) {
-                binding.root.setOnClickListener { listener.onItemClick(cluster) }
+                binding.root.setOnClickListener { listener.clusterSelected(cluster) }
                 binding.root.setOnLongClickListener {
-                    listener.onItemLongClick(cluster)
+                    listener.removeCluster(cluster)
                     true
                 }
             }

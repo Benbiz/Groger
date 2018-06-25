@@ -44,21 +44,20 @@
                     android:id="@+id/lbl_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Username"
-                    android:labelFor="@+id/edt_username"
+                    android:text="@string/usernameHint"
                     android:textColor="@color/colorPrimaryText"/>
                 <EditText
                     android:id="@+id/edt_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Username"
+                    android:hint="@string/usernameHint"
                     android:text="@={viewModel.credential.username}"
                     android:layout_below="@+id/lbl_username"/>
                 <TextView
                     android:id="@+id/lbl_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Password"
+                    android:text="@string/passwordHint"
                     android:layout_below="@+id/edt_username"
                     android:textColor="@color/colorPrimaryText"/>
                 <EditText
@@ -66,7 +65,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
-                    android:hint="Password"
+                    android:hint="@string/passwordHint"
                     android:text="@={viewModel.credential.password}"
                     android:layout_below="@+id/lbl_password"/>
 

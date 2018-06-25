@@ -9,11 +9,12 @@ import android.support.v7.app.AppCompatDialogFragment
 import com.groger.grogerapp.R
 import com.groger.grogerapp.databinding.AddClusterBinding
 import com.groger.grogerapp.service.model.NewCluster
+import com.groger.grogerapp.view.listener.ClustersListener
 
 class AddClusterDialog :  AppCompatDialogFragment() {
 
     private lateinit var binding: AddClusterBinding
-    private lateinit var listener : NewClusterListener
+    private lateinit var listener : ClustersListener
 
     val cluster = NewCluster("","")
 
@@ -25,7 +26,6 @@ class AddClusterDialog :  AppCompatDialogFragment() {
 
         binding = DataBindingUtil.inflate(inflater!!, R.layout.add_cluster, null, false)
 
-        //binding =  DataBindingUtil.setContentView(activity!!, R.layout.add_cluster)
 
         binding.cluster = cluster
         binding.executePendingBindings()
@@ -33,7 +33,7 @@ class AddClusterDialog :  AppCompatDialogFragment() {
                 .setTitle("Create a new cluster")
                 .setNegativeButton("Cancel", { _, _ -> })
                 .setPositiveButton("Ok", { _, _ ->
-                    listener.onNewCluster(cluster)
+                    listener.addCluster(cluster)
                 })
         return dialog.create()
     }
@@ -41,16 +41,11 @@ class AddClusterDialog :  AppCompatDialogFragment() {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
 
-        if (context is NewClusterListener)
+        if (context is ClustersListener)
             listener = context
         else
             throw ClassCastException("must implement NewClusterListener")
 
     }
 
-
-
-    interface NewClusterListener{
-        fun onNewCluster(cluster : NewCluster)
-    }
 }

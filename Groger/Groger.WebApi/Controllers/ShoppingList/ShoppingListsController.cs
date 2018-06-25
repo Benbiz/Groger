@@ -2,6 +2,7 @@
 using Groger.DAL;
 using Groger.DTO.ShoppingList;
 using Groger.Entity;
+using Groger.Entity.Shopping;
 using Groger.WebApi.Models;
 using System;
 using System.Collections.Generic;
@@ -97,6 +98,61 @@ namespace Groger.WebApi.Controllers.ShoppingList
             cluster.ShoppingLists.Add(entity);
 
             UnitOfWork.ClusterRepository.Update(cluster);
+            UnitOfWork.Save();
+
+            return CreatedAtRoute("GetShoppingList", new { clusterId = clusterId, id = entity.Id }, Mapper.Map<GetShoppingListDTO>(entity));
+        }
+
+        [HttpPost]
+        [Route("{modelId:int}")]
+        [ResponseType(typeof(GetShoppingListDTO))]
+        public IHttpActionResult PostShoppingListFromModel(int clusterId, int modelId)
+        {
+            Cluster cluster = UnitOfWork.ClusterRepository.GetByID(clusterId);
+
+            if (cluster == null)
+                return NotFound();
+            else if (cluster.ApplicationUsers.FirstOrDefault(x => x.Id == UserRecord.Id) == null)
+                return Unauthorized();
+
+            ShoppingModelList model = UnitOfWork.ShoppingModelListRepository.GetByID(modelId);
+            if (model == null)
+                return NotFound();
+
+            Entity.Shopping.ShoppingList entity = new Entity.Shopping.ShoppingList()
+            {
+                Name = model.Name,
+                Description = model.Description,
+                CreateDate = DateTime.Now,
+                Validated = false,
+                ValidatedDate = null
+            };
+
+            cluster.ShoppingLists.Add(entity);
+
+            UnitOfWork.ClusterRepository.Update(cluster);
+            UnitOfWork.Save();
+
+            entity.ShoppingItems = new List<ShoppingItem>();
+
+            foreach (ShoppingModelItem item in model.ShoppingModelItems)
+            {
+                ShoppingItem newItem = new ShoppingItem()
+                {
+                    AddDate = DateTime.Now,
+                    LastUpdate = DateTime.Now,
+                    Brought = 0,
+                    ToBuy = item.ToBuy,
+                    Validated = false,
+                    Comment  = item.Comment,
+                    ValidatedDate = null,
+                    Grocery = item.Grocery,
+                    GroceryId = item.Grocery.Id
+                };
+                entity.ShoppingItems.Add(newItem);
+            }
+
+            UnitOfWork.ShoppingListRepository.Update(entity);
             UnitOfWork.Save();
 
             return CreatedAtRoute("GetShoppingList", new { clusterId = clusterId, id = entity.Id }, Mapper.Map<GetShoppingListDTO>(entity));
